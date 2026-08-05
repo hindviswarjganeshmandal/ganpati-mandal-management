@@ -99,6 +99,61 @@ exports.dashboard = async (req, res) => {
     }
 
 };
+exports.addExpense = async (req, res) => {
+
+    try {
+
+        const expense = {
+
+            member_id: req.session.member.id,
+            expense_date: req.body.expense_date,
+            category: req.body.category,
+            item_name: req.body.item_name,
+            quantity: req.body.quantity,
+            price: req.body.price,
+            total: req.body.total,
+            bill: req.file ? req.file.filename : null,
+            description: req.body.description
+
+        };
+
+        await expenseModel.addExpense(expense);
+
+        res.redirect("/member/expenses");
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
+
+    }
+
+};
+exports.myExpenses = async (req, res) => {
+
+    const expenses = await expenseModel.getExpensesByMember(
+        req.session.member.id
+    );
+
+    res.render("member/expenses", {
+
+        member: req.session.member,
+
+        expenses
+
+    });
+
+};
+exports.showAddExpense = (req, res) => {
+
+    res.render("member/addExpense", {
+        member: req.session.member
+    });
+
+};
+
+
 
 // Logout
 exports.logout = (req, res) => {

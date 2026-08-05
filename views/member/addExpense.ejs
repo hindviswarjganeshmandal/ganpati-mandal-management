@@ -1,59 +1,253 @@
-<form action="/expense/add" method="POST" enctype="multipart/form-data">
+<!DOCTYPE html>
+<html lang="en">
 
-    <label>Quantity</label>
+<head>
 
-    <input
-        type="number"
-        id="quantity"
-        name="quantity"
-        value="1"
-        required>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <label>Price</label>
+    <title>Add Expense</title>
 
-    <input
-        type="number"
-        id="price"
-        name="price"
-        required>
+    <link rel="stylesheet" href="/css/member-dashboard.css">
 
-    <label>Total</label>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
-    <input
-        type="number"
-        id="total"
-        name="total"
-        readonly>
+</head>
 
-    <button type="submit">
+<body>
 
-        Save Expense
+<div class="dashboard">
 
-    </button>
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-</form>
+        <div class="logo">
+
+            <img src="/images/logo.png">
+
+            <h2>Ganpati Mandal</h2>
+
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/member/dashboard">
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="/member/add-expense">
+                    <i class="fa-solid fa-wallet"></i>
+                    Add Expense
+                </a>
+            </li>
+
+            <li>
+                <a href="/member/expenses">
+                    <i class="fa-solid fa-list"></i>
+                    My Expenses
+                </a>
+            </li>
+
+            <li>
+                <a href="/member/profile">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </a>
+            </li>
+
+            <li>
+                <a href="/member/logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <main class="content">
+
+        <header>
+
+            <h1>Add New Expense</h1>
+
+        </header>
+
+        <div class="form-card">
+
+            <form
+                action="/member/add-expense"
+                method="POST"
+                enctype="multipart/form-data">
+
+                <div class="grid">
+
+                    <div class="form-group">
+
+                        <label>Date</label>
+
+                        <input
+                            type="date"
+                            name="expense_date"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Category</label>
+
+                        <select
+                            name="category"
+                            required>
+
+                            <option>Decoration</option>
+
+                            <option>Festival</option>
+
+                            <option>Food</option>
+
+                            <option>Lighting</option>
+
+                            <option>Sound</option>
+
+                            <option>Cleaning</option>
+
+                            <option>Stationary</option>
+
+                            <option>Transportation</option>
+
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Item Name</label>
+
+                        <input
+                            type="text"
+                            name="item_name"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Quantity</label>
+
+                        <input
+                            type="number"
+                            id="qty"
+                            name="quantity"
+                            value="1"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Price (₹)</label>
+
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Total</label>
+
+                        <input
+                            type="number"
+                            id="total"
+                            name="total"
+                            readonly>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Description</label>
+
+                        <textarea
+                            name="description"
+                            rows="4"></textarea>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Upload Bill</label>
+
+                        <input
+                            type="file"
+                            name="bill"
+                            accept="image/*,.pdf">
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Expense
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
 <script>
 
-const qty = document.getElementById("quantity");
+const qty=document.getElementById("qty");
 
-const price = document.getElementById("price");
+const price=document.getElementById("price");
 
-const total = document.getElementById("total");
+const total=document.getElementById("total");
 
 function calculate(){
 
-    const q = Number(qty.value) || 0;
+    total.value=(
 
-    const p = Number(price.value) || 0;
+        Number(qty.value||0)
 
-    total.value = q * p;
+        *
+
+        Number(price.value||0)
+
+    );
 
 }
 
-qty.addEventListener("input", calculate);
+qty.addEventListener("input",calculate);
 
-price.addEventListener("input", calculate);
+price.addEventListener("input",calculate);
 
 calculate();
 
 </script>
+
+</body>
+
+</html>

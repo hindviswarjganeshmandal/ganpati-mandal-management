@@ -89,6 +89,40 @@ exports.updateExpenseStatus = async (id, status) => {
     );
 
 };
+exports.getExpensesByMember = async (memberId) => {
+
+    const [rows] = await db.execute(
+
+        `SELECT *
+         FROM expenses
+         WHERE member_id=?
+         ORDER BY id DESC`,
+
+        [memberId]
+
+    );
+
+    return rows;
+
+};
+// Delete Expense
+exports.deleteExpense = async (id) => {
+
+    return db.execute(
+        "DELETE FROM expenses WHERE id=?",
+        [id]
+    );
+
+};
+// Approve / Reject Expense
+exports.updateExpenseStatus = async (id, status) => {
+
+    return db.execute(
+        "UPDATE expenses SET status=? WHERE id=?",
+        [status, id]
+    );
+
+};
 
 // Delete Expense
 exports.deleteExpense = async (id) => {

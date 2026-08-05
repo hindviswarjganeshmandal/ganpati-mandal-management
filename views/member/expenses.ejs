@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Member Dashboard</title>
+    <title>My Expenses</title>
 
     <link rel="stylesheet" href="/css/member-dashboard.css">
-
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
@@ -24,7 +23,7 @@
 
         <div class="logo">
 
-            <img src="/images/logo.png" alt="Logo">
+            <img src="/images/logo.png">
 
             <h2>Ganpati Mandal</h2>
 
@@ -32,7 +31,7 @@
 
         <ul>
 
-            <li class="active">
+            <li>
                 <a href="/member/dashboard">
                     <i class="fa-solid fa-house"></i>
                     Dashboard
@@ -46,7 +45,7 @@
                 </a>
             </li>
 
-            <li>
+            <li class="active">
                 <a href="/member/expenses">
                     <i class="fa-solid fa-list"></i>
                     My Expenses
@@ -56,14 +55,7 @@
             <li>
                 <a href="/member/profile">
                     <i class="fa-solid fa-user"></i>
-                    My Profile
-                </a>
-            </li>
-
-            <li>
-                <a href="/member/password">
-                    <i class="fa-solid fa-key"></i>
-                    Change Password
+                    Profile
                 </a>
             </li>
 
@@ -78,90 +70,15 @@
 
     </aside>
 
-    <!-- Main Content -->
     <main class="content">
 
-        <!-- Header -->
         <header>
 
-            <div>
-
-                <h1>Welcome, <%= member.fullname %></h1>
-
-                <p>
-                    Department :
-                    <strong><%= member.department %></strong>
-                </p>
-
-            </div>
-
-            <div class="profile">
-
-                <i class="fa-solid fa-user-circle"></i>
-
-            </div>
+            <h1>My Expenses</h1>
 
         </header>
 
-        <!-- Statistics -->
-        <section class="cards">
-
-            <div class="card">
-
-                <i class="fa-solid fa-indian-rupee-sign"></i>
-
-                <h3>Total Expenses</h3>
-
-                <h2>₹ <%= totalAmount %></h2>
-
-            </div>
-
-            <div class="card pending">
-
-                <i class="fa-solid fa-clock"></i>
-
-                <h3>Pending</h3>
-
-                <h2><%= pending %></h2>
-
-            </div>
-
-            <div class="card approved">
-
-                <i class="fa-solid fa-circle-check"></i>
-
-                <h3>Approved</h3>
-
-                <h2><%= approved %></h2>
-
-            </div>
-
-            <div class="card rejected">
-
-                <i class="fa-solid fa-circle-xmark"></i>
-
-                <h3>Rejected</h3>
-
-                <h2><%= rejected %></h2>
-
-            </div>
-
-        </section>
-
-        <!-- Recent Expenses -->
-        <section class="table-section">
-
-            <div class="table-header">
-
-                <h2>Recent Expenses</h2>
-
-                <a href="/member/add-expense" class="btn">
-
-                    + Add Expense
-
-                </a>
-
-            </div>
+        <div class="table-section">
 
             <table>
 
@@ -171,13 +88,19 @@
 
                         <th>Date</th>
 
+                        <th>Category</th>
+
                         <th>Item</th>
 
-                        <th>Category</th>
+                        <th>Qty</th>
+
+                        <th>Price</th>
 
                         <th>Total</th>
 
                         <th>Status</th>
+
+                        <th>Bill</th>
 
                     </tr>
 
@@ -185,7 +108,7 @@
 
                 <tbody>
 
-                <% if(expenses.length>0){ %>
+                <% if(expenses.length > 0){ %>
 
                     <% expenses.forEach(expense=>{ %>
 
@@ -193,11 +116,15 @@
 
                         <td><%= expense.expense_date %></td>
 
-                        <td><%= expense.item_name %></td>
-
                         <td><%= expense.category %></td>
 
-                        <td>₹ <%= expense.total %></td>
+                        <td><%= expense.item_name %></td>
+
+                        <td><%= expense.quantity %></td>
+
+                        <td>₹ <%= expense.price %></td>
+
+                        <td><strong>₹ <%= expense.total %></strong></td>
 
                         <td>
 
@@ -209,6 +136,24 @@
 
                         </td>
 
+                        <td>
+
+                            <% if(expense.bill){ %>
+
+                                <a href="/uploads/bills/<%= expense.bill %>" target="_blank">
+
+                                    <i class="fa-solid fa-file"></i>
+
+                                </a>
+
+                            <% }else{ %>
+
+                                -
+
+                            <% } %>
+
+                        </td>
+
                     </tr>
 
                     <% }) %>
@@ -217,9 +162,9 @@
 
                     <tr>
 
-                        <td colspan="5">
+                        <td colspan="8">
 
-                            No expenses added yet.
+                            No Expense Found
 
                         </td>
 
@@ -231,7 +176,7 @@
 
             </table>
 
-        </section>
+        </div>
 
     </main>
 

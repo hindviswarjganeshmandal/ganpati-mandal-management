@@ -297,3 +297,116 @@ font-size:34px;
     border-radius:5px;
     text-decoration:none;
 }
+
+/*========Admin Expense========*/
+.table-card{
+
+    background:#fff;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    overflow:auto;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+table th{
+
+    background:#ff9800;
+
+    color:#fff;
+
+    padding:15px;
+
+}
+
+table td{
+
+    padding:14px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+table tr:hover{
+
+    background:#fafafa;
+
+}
+
+.badge{
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    color:#fff;
+
+    font-size:13px;
+
+}
+
+.pending{
+
+    background:#ffc107;
+
+}
+
+.approved{
+
+    background:#28a745;
+
+}
+
+.rejected{
+
+    background:#dc3545;
+
+}
+
+.btn{
+
+    display:inline-block;
+
+    padding:7px 14px;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    border-radius:6px;
+
+    margin:2px;
+
+    font-size:13px;
+
+}
+
+.approve{
+
+    background:#28a745;
+
+}
+
+.reject{
+
+    background:#ff9800;
+
+}
+
+.delete{
+
+    background:#dc3545;
+
+}

@@ -19,7 +19,8 @@ const profileController = require("../controllers/profileController");
 const { sendEmail } = require("../utils/email");
 const expenseController = require("../controllers/expenseController");
 const adminExpenseController = require("../controllers/adminExpenseController");
-
+const managementController = require("../controllers/managementController");
+const incomeController = require("../controllers/incomeController");
 // ================= Dashboard =================
 
 router.get("/dashboard", auth, async (req, res) => {
@@ -403,6 +404,8 @@ router.get(
     exportController.exportNews
 );
 
+// ================= EXPENSE MANAGEMENT =================
+
 router.get(
     "/expenses",
     auth,
@@ -426,28 +429,48 @@ router.get(
     auth,
     expenseController.deleteExpense
 );
+// ================= MANAGEMENT =================
 
+// Management Dashboard
 router.get(
-    "/expenses",
+    "/management",
     auth,
-    adminExpenseController.showExpenses
+    managementController.showManagement
 );
 
-router.get(
-    "/expenses/approve/:id",
+// Save Transaction
+router.post(
+    "/management/add",
     auth,
-    adminExpenseController.approveExpense
+    managementController.addTransaction
 );
 
+// Delete Transaction
 router.get(
-    "/expenses/reject/:id",
+    "/management/delete/:id",
     auth,
-    adminExpenseController.rejectExpense
+    managementController.deleteTransaction
+);
+// ================= INCOME =================
+
+// Income Page
+router.get(
+    "/income",
+    auth,
+    incomeController.showIncome
 );
 
-router.get(
-    "/expenses/delete/:id",
+// Add Income
+router.post(
+    "/income/add",
     auth,
-    adminExpenseController.deleteExpense
+    incomeController.addIncome
+);
+
+// Delete Income
+router.get(
+    "/income/delete/:id",
+    auth,
+    incomeController.deleteIncome
 );
 module.exports = router;

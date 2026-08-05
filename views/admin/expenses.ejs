@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Management</title>
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <%- include("partials/sidebar") %>
+
+    <main class="main-content">
+
+        <%- include("partials/topbar") %>
+
+        <div class="page-header">
+
+            <h1>Expense Management</h1>
+
+            <p>Manage all member expenses</p>
+
+        </div>
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Member</th>
+                        <th>Department</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Bill</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                <% if(expenses.length > 0){ %>
+
+                    <% expenses.forEach(expense=>{ %>
+
+                    <tr>
+
+                        <td><%= expense.id %></td>
+
+                        <td><%= expense.fullname %></td>
+
+                        <td><%= expense.department %></td>
+
+                        <td><%= expense.expense_date %></td>
+
+                        <td><%= expense.category %></td>
+
+                        <td><%= expense.item_name %></td>
+
+                        <td>
+
+                            <strong>
+
+                                ₹ <%= expense.total %>
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <% if(expense.status=="Pending"){ %>
+
+                                <span class="badge pending">
+
+                                    Pending
+
+                                </span>
+
+                            <% } %>
+
+                            <% if(expense.status=="Approved"){ %>
+
+                                <span class="badge approved">
+
+                                    Approved
+
+                                </span>
+
+                            <% } %>
+
+                            <% if(expense.status=="Rejected"){ %>
+
+                                <span class="badge rejected">
+
+                                    Rejected
+
+                                </span>
+
+                            <% } %>
+
+                        </td>
+
+                        <td>
+
+                            <% if(expense.bill){ %>
+
+                                <a href="/uploads/bills/<%= expense.bill %>" target="_blank">
+
+                                    View Bill
+
+                                </a>
+
+                            <% } else { %>
+
+                                -
+
+                            <% } %>
+
+                        </td>
+
+                        <td>
+
+                            <% if(expense.status=="Pending"){ %>
+
+                                <a class="btn approve"
+
+                                    href="/admin/expense/approve/<%= expense.id %>">
+
+                                    Approve
+
+                                </a>
+
+                                <a class="btn reject"
+
+                                    href="/admin/expense/reject/<%= expense.id %>">
+
+                                    Reject
+
+                                </a>
+
+                            <% } %>
+
+                            <a class="btn delete"
+
+                                onclick="return confirm('Delete this expense?')"
+
+                                href="/admin/expense/delete/<%= expense.id %>">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                <% } else { %>
+
+                    <tr>
+
+                        <td colspan="10">
+
+                            No Expenses Found
+
+                        </td>
+
+                    </tr>
+
+                <% } %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

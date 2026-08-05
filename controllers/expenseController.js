@@ -114,3 +114,88 @@ exports.deleteExpense = async (req, res) => {
     res.redirect("/admin/expenses");
 
 };
+
+
+// Show All Expenses
+exports.adminExpenses = async (req, res) => {
+
+    try {
+
+        const expenses = await expenseModel.getAllExpenses();
+
+        res.render("admin/expenses", {
+            expenses
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
+
+    }
+
+};
+
+// Approve
+exports.approveExpense = async (req, res) => {
+
+    try {
+
+        await expenseModel.updateExpenseStatus(
+            req.params.id,
+            "Approved"
+        );
+
+        res.redirect("/admin/expenses");
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
+
+    }
+
+};
+
+// Reject
+exports.rejectExpense = async (req, res) => {
+
+    try {
+
+        await expenseModel.updateExpenseStatus(
+            req.params.id,
+            "Rejected"
+        );
+
+        res.redirect("/admin/expenses");
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
+
+    }
+
+};
+
+// Delete
+exports.deleteExpense = async (req, res) => {
+
+    try {
+
+        await expenseModel.deleteExpense(req.params.id);
+
+        res.redirect("/admin/expenses");
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
+
+    }
+
+};
