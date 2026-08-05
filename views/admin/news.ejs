@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="/css/admin.css">
+
+<%- include("partials/sidebar") %>
+
+<%- include("partials/topbar") %>
+
+<div class="main-content">
+
+    <!-- Existing page content -->
+
+</div>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+
+    <h1>Latest News</h1>
+
+    <form action="/admin/news/add" method="POST">
+
+        <input
+            type="text"
+            name="title"
+            placeholder="News Title"
+            required>
+
+        <br><br>
+
+        <textarea
+            name="description"
+            rows="5"
+            placeholder="News Description"
+            required></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Publish News
+        </button>
+
+    </form>
+
+    <hr>
+
+    <% news.forEach(item => { %>
+
+        <div style="margin-bottom:20px;">
+
+            <h3><%= item.title %></h3>
+
+            <p><%= item.description %></p>
+
+            <small><%= item.created_at %></small>
+
+        </div>
+
+        <hr>
+
+    <% }) %>
+
+</div>
+
+<%- include("../partials/footer") %>

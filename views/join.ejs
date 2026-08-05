@@ -1,0 +1,49 @@
+<%- include("partials/header") %>
+<%- include("partials/navbar") %>
+
+<section class="join-page">
+
+    <div class="join-container">
+
+        <div class="join-left">
+
+            <h1>Join Our Ganpati Family</h1>
+
+            <p>
+                Become a volunteer and help us organize the Ganesh Festival.
+                Fill out the form below to become a member.
+            </p>
+
+            <img src="/images/ganpati.png" alt="Ganpati">
+
+        </div>
+
+        <div class="join-right">
+
+            <form action="/join" method="POST" enctype="multipart/form-data">
+
+                <input type="text" name="fullname" placeholder="Full Name" required>
+
+                <input type="email" name="email" placeholder="Email Address" required>
+
+                <input type="tel" name="phone" placeholder="Mobile Number" required>
+
+                <textarea name="address" rows="4" placeholder="Address" required></textarea>
+
+                <label>Upload Photo</label>
+
+                <input type="file" name="photo" accept="image/*" required>
+
+                <button type="submit">
+                    Join Now
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<%- include("partials/footer") %>

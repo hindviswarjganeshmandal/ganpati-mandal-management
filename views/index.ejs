@@ -1,0 +1,383 @@
+<%- include("partials/header") %>
+
+    <%- include("partials/loader") %>
+
+        <%- include("partials/navbar") %>
+
+            <!-- ================= HERO ================= -->
+
+            <section class="hero">
+
+                <video autoplay muted loop playsinline class="hero-video">
+                    <source src="/videos/ganpati.mp4" type="video/mp4">
+                </video>
+
+                <div class="hero-overlay"></div>
+
+                <div class="hero-content">
+
+                    <img src="/images/ganpati.png" alt="Ganpati" class="ganpati-img">
+
+                    <h3>🙏 Welcome To</h3>
+
+                    <h1>
+                        <%= settings.mandal_name %>
+                    </h1>
+
+                    <p>
+                        Celebrating Faith, Unity & Devotion Since Many Years
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="/join" class="btn-primary">
+                            Join Us
+                        </a>
+
+                        <a href="/donation" class="btn-secondary">
+                            Donate Now
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="scroll-down">
+
+                    <i class="fa-solid fa-angle-down"></i>
+
+                </div>
+
+            </section>
+
+            <!-- ================= HISTORY ================= -->
+
+            <section class="about-section">
+
+                <div class="about-container">
+
+                    <div class="about-image" data-aos="fade-right">
+
+                        <img src="/images/ganpati-history.jpg" alt="Ganpati History">
+
+                    </div>
+
+                    <div class="about-content" data-aos="fade-left">
+
+                        <span class="section-tag">
+                            🙏 About Our Mandal
+                        </span>
+
+                        <h2>
+                            <%= settings.mandal_name %>
+                        </h2>
+
+                        <p>
+                            Our Ganpati Mandal has been celebrating Ganesh Chaturthi with
+                            devotion, unity and cultural pride for many years. We organize
+                            religious events, social activities, charity programs and
+                            cultural performances that bring the community together.
+                        </p>
+
+                        <p>
+                            Every year thousands of devotees visit our Mandal to seek the
+                            blessings of Lord Ganesha.
+                        </p>
+
+                        <div class="about-stats">
+
+                            <div class="stat-box" data-aos="zoom-in" data-aos-delay="100">
+                                <h3>25+</h3>
+                                <p>Years</p>
+                            </div>
+
+                            <div class="stat-box" data-aos="zoom-in" data-aos-delay="250">
+                                <h3>500+</h3>
+                                <p>Members</p>
+                            </div>
+
+                            <div class="stat-box" data-aos="zoom-in" data-aos-delay="400">
+                                <h3>100+</h3>
+                                <p>Events</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= GALLERY ================= -->
+
+            <section class="gallery-section">
+
+                <div class="section-title" data-aos="fade-up">
+
+                    <span>📸 Our Gallery</span>
+
+                    <h2>Ganpati Celebration Memories</h2>
+
+                    <p>
+                        Some beautiful moments of our Ganesh Festival celebration.
+                    </p>
+
+                </div>
+
+                <div class="gallery-grid">
+
+                    <% gallery.forEach(photo=> { %>
+
+                        <div class="gallery-card" data-aos="zoom-in">
+
+                            <img src="/uploads/gallery/<%= photo.image %>" alt="Gallery Image">
+
+                            <div class="gallery-overlay">
+
+                                <a href="/uploads/gallery/<%= photo.image %>" data-lightbox="gallery"
+                                    class="gallery-btn">
+                                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        <% }) %>
+
+                </div>
+
+                <div class="gallery-more">
+
+                    <a href="/gallery" class="view-btn">
+
+                        View All Gallery
+
+                    </a>
+
+                </div>
+
+            </section>
+             <!-- ================= DONATION ================= -->
+<section class="donation-progress">
+
+    <div class="progress-container">
+
+        <div class="progress-left" data-aos="fade-right">
+
+            <span>❤️ Donation Progress</span>
+
+            <h2>Support Our Ganpati Mandal</h2>
+
+            <p>
+
+                Every contribution helps us organize a grand celebration,
+                community service, and cultural programs.
+
+            </p>
+
+        </div>
+
+        <div class="progress-right" data-aos="fade-left">
+
+            <h3>
+
+                ₹ <%= donationStats.total %> Raised
+
+            </h3>
+
+            <small>
+
+                Goal : ₹500000
+
+            </small>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width:<%= Math.min((donationStats.total/500000)*100,100) %>%">
+                </div>
+
+            </div>
+
+            <div class="progress-info">
+
+                <span>
+
+                    ❤️ <%= donationStats.donors %> Donors
+
+                </span>
+
+                <span>
+
+                    <%= Math.round(Math.min((donationStats.total/500000)*100,100)) %>%
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+            <!-- ================= MEMBERS ================= -->
+
+            <section class="members-section">
+
+                <div class="section-title" data-aos="fade-up">
+
+                    <span>👥 Our Team</span>
+
+                    <h2>Management Committee</h2>
+
+                    <p>Meet the dedicated members of our Ganesh Mandal.</p>
+
+                </div>
+
+                <div class="swiper memberSwiper">
+
+                    <div class="swiper-wrapper">
+
+                        <% members.forEach(member=> { %>
+
+                            <div class="swiper-slide">
+
+                                <div class="member-card">
+
+                                    <div class="member-image">
+
+                                        <img src="/uploads/members/<%= member.photo %>" alt="<%= member.fullname %>">
+
+                                    </div>
+
+                                    <h3>
+                                        <%= member.fullname %>
+                                    </h3>
+
+                                    <span class="member-post">
+                                        <% if(member.post==="President" ){ %>
+                                            👑 President
+                                            <% } else if(member.post==="Secretary" ){ %>
+                                                📋 Secretary
+                                                <% } else if(member.post==="Treasurer" ){ %>
+                                                    💰 Treasurer
+                                                    <% } else { %>
+                                                        👤 <%= member.post %>
+                                                            <% } %>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <% }) %>
+
+                    </div>
+
+                </div>
+
+                <div class="member-more">
+
+                    <a href="/members" class="view-btn">
+                        View All Members
+                    </a>
+
+                </div>
+
+            </section>
+            <!-- ================= NEWS ================= -->
+
+            <section class="news-section">
+
+                <div class="section-title">
+                    <span>Latest Updates</span>
+                    <h2>News & Announcements</h2>
+                </div>
+
+                <div class="news-container">
+
+                    <% latestNews.forEach(news=> { %>
+
+                        <div class="news-card">
+
+                            <h3>
+                                <%= news.title %>
+                            </h3>
+
+                            <p>
+                                <%= news.description %>
+                            </p>
+
+                            <small>
+                                <%= new Date(news.created_at).toLocaleDateString() %>
+                            </small>
+
+                        </div>
+
+                        <% }) %>
+
+                </div>
+
+            </section>
+           <section class="events-section">
+
+    <div class="section-title" data-aos="fade-up">
+
+        <span>🎉 Latest Events</span>
+
+        <h2>Upcoming & Recent Events</h2>
+
+        <p>Join our spiritual and cultural activities.</p>
+
+    </div>
+
+    <div class="events-grid">
+
+        <% events.forEach(event => { %>
+
+        <div class="event-card" data-aos="fade-up">
+
+            <img
+                src="/uploads/events/<%= event.image %>"
+                alt="<%= event.title %>"
+            >
+
+            <div class="event-content">
+
+                <div class="event-date">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    <%= new Date(event.event_date).toLocaleDateString("en-IN") %>
+
+                </div>
+
+                <h3><%= event.title %></h3>
+
+                <p><%= event.description %></p>
+
+            </div>
+
+        </div>
+
+        <% }) %>
+
+    </div>
+
+    <div class="event-btn">
+
+        <a href="/events" class="view-btn">
+
+            View All Events
+
+        </a>
+
+    </div>
+
+</section>
+            <%- include("partials/footer") %>

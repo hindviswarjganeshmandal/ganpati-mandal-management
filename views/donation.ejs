@@ -1,0 +1,86 @@
+<%- include("partials/header") %>
+
+<%- include("partials/navbar") %>
+
+<section class="join-page">
+
+    <div class="join-container">
+
+        <!-- Left Side -->
+        <div class="join-left">
+
+            <h2>Donate for Ganpati Mandal</h2>
+
+            <p>Scan the QR Code and upload the payment screenshot.</p>
+
+            <% if(payment && payment.qr_code){ %>
+
+                <img
+                    src="/uploads/payment/<%= payment.qr_code %>"
+                    alt="QR Code"
+                    style="width:250px;">
+
+            <% } %>
+
+            <br><br>
+
+            <h3>UPI ID</h3>
+            <p><%= payment.upi_id %></p>
+
+            <h3>Account Holder</h3>
+            <p><%= payment.account_name %></p>
+
+            <h3>Bank</h3>
+            <p><%= payment.bank_name %></p>
+
+            <h3>Account Number</h3>
+            <p><%= payment.account_number %></p>
+
+            <h3>IFSC Code</h3>
+            <p><%= payment.ifsc_code %></p>
+
+        </div>
+
+        <!-- Right Side -->
+        <div class="join-right">
+
+            <form action="/donation" method="POST" enctype="multipart/form-data">
+
+                <input
+                    type="text"
+                    name="fullname"
+                    placeholder="Full Name"
+                    required>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required>
+
+                <input
+                    type="number"
+                    name="amount"
+                    placeholder="Donation Amount"
+                    required>
+
+                <input
+                    type="file"
+                    name="screenshot"
+                    required>
+
+                <button type="submit">
+
+                    Submit Donation
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<%- include("partials/footer") %>

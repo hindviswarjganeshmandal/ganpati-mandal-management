@@ -1,0 +1,81 @@
+<%- include("../partials/header") %>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<%- include("partials/sidebar") %>
+<%- include("partials/topbar") %>
+
+<div class="main-content">
+
+<h1>Payment Details</h1>
+
+<form
+action="/admin/payment"
+method="POST"
+enctype="multipart/form-data">
+
+<label>UPI ID</label>
+<input
+type="text"
+name="upi_id"
+value="<%= payment.upi_id %>">
+
+<label>Account Holder</label>
+<input
+type="text"
+name="account_name"
+value="<%= payment.account_name %>">
+
+<label>Bank Name</label>
+<input
+type="text"
+name="bank_name"
+value="<%= payment.bank_name %>">
+
+<label>Account Number</label>
+<input
+type="text"
+name="account_number"
+value="<%= payment.account_number %>">
+
+<label>IFSC Code</label>
+<input
+type="text"
+name="ifsc_code"
+value="<%= payment.ifsc_code %>">
+
+<label>Mobile</label>
+<input
+type="text"
+name="mobile"
+value="<%= payment.mobile %>">
+
+<label>QR Code</label>
+
+<% if(payment.qr_code){ %>
+
+<img
+src="/uploads/payment/<%= payment.qr_code %>"
+width="180"
+style="display:block;margin-bottom:15px;">
+
+<% } %>
+
+<input
+type="file"
+name="qr_code"
+accept="image/*">
+
+<br><br>
+
+<button type="submit">
+
+Save Payment Details
+
+</button>
+
+</form>
+
+</div>
+
+<%- include("../partials/footer") %>

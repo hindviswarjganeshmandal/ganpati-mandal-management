@@ -1,0 +1,59 @@
+<form action="/expense/add" method="POST" enctype="multipart/form-data">
+
+    <label>Quantity</label>
+
+    <input
+        type="number"
+        id="quantity"
+        name="quantity"
+        value="1"
+        required>
+
+    <label>Price</label>
+
+    <input
+        type="number"
+        id="price"
+        name="price"
+        required>
+
+    <label>Total</label>
+
+    <input
+        type="number"
+        id="total"
+        name="total"
+        readonly>
+
+    <button type="submit">
+
+        Save Expense
+
+    </button>
+
+</form>
+<script>
+
+const qty = document.getElementById("quantity");
+
+const price = document.getElementById("price");
+
+const total = document.getElementById("total");
+
+function calculate(){
+
+    const q = Number(qty.value) || 0;
+
+    const p = Number(price.value) || 0;
+
+    total.value = q * p;
+
+}
+
+qty.addEventListener("input", calculate);
+
+price.addEventListener("input", calculate);
+
+calculate();
+
+</script>

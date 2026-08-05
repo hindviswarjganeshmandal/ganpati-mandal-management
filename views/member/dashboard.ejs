@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Member Dashboard</title>
+<link rel="stylesheet" href="/css/.member-dashboard.css">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Member Dashboard</title>
+
+    <link rel="stylesheet" href="/css/member-dashboard.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+</head>
+
+<body>
+
+<div class="dashboard-cards">
+
+    <div class="card">
+        <h4>Total Expenses</h4>
+        <h2>₹ <%= totalAmount || 0 %></h2>
+    </div>
+
+    <div class="card pending">
+        <h4>Pending</h4>
+        <h2><%= pending || 0 %></h2>
+    </div>
+
+    <div class="card approved">
+        <h4>Approved</h4>
+        <h2><%= approved || 0 %></h2>
+    </div>
+
+    <div class="card rejected">
+        <h4>Rejected</h4>
+        <h2><%= rejected || 0 %></h2>
+    </div>
+
+</div>
+<table class="expense-table">
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Item</th>
+
+<th>Category</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<% expenses.forEach(expense=>{ %>
+
+<tr>
+
+<td><%= expense.date %></td>
+
+<td><%= expense.item_name %></td>
+
+<td><%= expense.category %></td>
+
+<td>₹ <%= expense.total %></td>
+
+<td>
+
+<span class="status <%= expense.status.toLowerCase() %>">
+
+<%= expense.status %>
+
+</span>
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+<a href="/member/logout">
+
+Logout
+
+</a>
+<div class="quick-actions">
+
+<a href="/member/add-expense" class="btn">
+    ➕ Add Expense
+</a>
+
+<a href="/member/my-expenses" class="btn">
+    📄 My Expenses
+</a>
+
+<a href="/member/profile" class="btn">
+    👤 Profile
+</a>
+
+</div>
+
+</body>
+
+</html>

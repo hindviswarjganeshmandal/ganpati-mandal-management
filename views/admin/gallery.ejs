@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="/css/admin.css">
+
+<%- include("partials/sidebar") %>
+
+<%- include("partials/topbar") %>
+
+<div class="main-content">
+
+    <!-- Existing page content -->
+
+</div>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+
+    <h1>Gallery Management</h1>
+
+    <form
+        action="/admin/gallery/upload"
+        method="POST"
+        enctype="multipart/form-data">
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Photo Title"
+            required>
+
+        <input
+            type="file"
+            name="image"
+            accept="image/*"
+            required>
+
+        <button type="submit">
+            Upload Photo
+        </button>
+
+    </form>
+
+    <hr>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;">
+
+        <% photos.forEach(photo => { %>
+
+            <div style="width:220px;text-align:center;">
+
+                <img
+                    src="/uploads/gallery/<%= photo.image %>"
+                    style="width:220px;height:180px;object-fit:cover;border-radius:10px;">
+
+                <h4><%= photo.title %></h4>
+
+            </div>
+
+        <% }) %>
+
+    </div>
+
+</div>
+
+<%- include("../partials/footer") %>
+

@@ -1,0 +1,65 @@
+<%- include("../partials/header") %>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<%- include("partials/sidebar") %>
+<%- include("partials/topbar") %>
+
+<div class="main-content">
+
+<h1>Website Settings</h1>
+
+<form action="/admin/settings" method="POST">
+
+<label>Mandal Name</label>
+<input type="text"
+name="mandal_name"
+value="<%= settings.mandal_name %>"
+required>
+
+<label>Phone</label>
+<input type="text"
+name="phone"
+value="<%= settings.phone %>">
+
+<label>Email</label>
+<input type="email"
+name="email"
+value="<%= settings.email %>">
+
+<label>Address</label>
+<textarea
+name="address"
+rows="4"><%= settings.address %></textarea>
+
+<label>About</label>
+<textarea
+name="about"
+rows="6"><%= settings.about %></textarea>
+
+<label>Facebook</label>
+<input type="text"
+name="facebook"
+value="<%= settings.facebook || '' %>">
+
+<label>Instagram</label>
+<input type="text"
+name="instagram"
+value="<%= settings.instagram || '' %>">
+
+<label>YouTube</label>
+<input type="text"
+name="youtube"
+value="<%= settings.youtube || '' %>">
+
+<br><br>
+
+<button type="submit">
+Save Settings
+</button>
+
+</form>
+
+</div>
+
+<%- include("../partials/footer") %>

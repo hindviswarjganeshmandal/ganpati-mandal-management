@@ -1,0 +1,208 @@
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <!-- ================= Brand ================= -->
+
+        <div class="footer-box footer-brand">
+
+            <img src="/images/logo.png" alt="Logo" class="footer-logo">
+
+            <h2>
+                <%= settings.mandal_name %>
+            </h2>
+
+            <span class="brand-tagline">
+                || गणपती बाप्पा मोरया ||
+            </span>
+
+            <p>
+                Dedicated to preserving our traditions, celebrating Lord Ganesha
+                with devotion, unity, culture and social service.
+            </p>
+
+            <div class="trust-badge">
+
+                🛕 Registered Ganesh Mandal
+
+            </div>
+
+        </div>
+
+        <!-- ================= Quick Links ================= -->
+
+        <div class="footer-box">
+
+            <h3>Quick Links</h3>
+
+            <ul>
+
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/management">Management</a></li>
+
+                <li><a href="/gallery">Gallery</a></li>
+
+                <li><a href="/members">Members</a></li>
+
+                <li><a href="/donation">Donation</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+            </ul>
+
+        </div>
+
+        <!-- ================= Contact ================= -->
+
+        <div class="footer-box">
+
+            <h3>Contact Us</h3>
+
+            <p>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <%= settings.address %>
+
+            </p>
+
+            <p>
+
+                <i class="fa-solid fa-phone"></i>
+
+                <a href="tel:<%= settings.phone %>">
+
+                    <%= settings.phone %>
+
+                </a>
+
+            </p>
+
+            <p>
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <a href="mailto:<%= settings.email %>">
+
+                    <%= settings.email %>
+
+                </a>
+
+            </p>
+
+        </div>
+
+        <!-- ================= Social ================= -->
+
+        <div class="footer-box">
+
+            <h3>Follow Us</h3>
+
+            <div class="social-links">
+
+                <a href="<%= settings.facebook || '#' %>" target="_blank">
+
+                    <i class="fab fa-facebook-f"></i>
+
+                </a>
+
+                <a href="<%= settings.instagram || '#' %>" target="_blank">
+
+                    <i class="fab fa-instagram"></i>
+
+                </a>
+
+                <a href="<%= settings.youtube || '#' %>" target="_blank">
+
+                    <i class="fab fa-youtube"></i>
+
+                </a>
+
+                <a href="https://wa.me/<%= settings.whatsapp || '' %>" target="_blank">
+
+                    <i class="fab fa-whatsapp"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Google Map ================= -->
+
+    <% if(settings.map){ %>
+
+        <div class="footer-map">
+
+            <iframe src="<%= settings.map %>" loading="lazy" allowfullscreen>
+            </iframe>
+
+        </div>
+
+        <% } %>
+
+            <!-- ================= Copyright ================= -->
+
+            <div class="footer-bottom">
+
+                <p>
+
+                    © <%= new Date().getFullYear() %>
+
+                        <strong>
+                            <%= settings.mandal_name %>
+                        </strong>
+
+                        | All Rights Reserved
+
+                </p>
+
+                <p>
+
+                    Designed & Developed with ❤️ for Shree Ganesh Mandal
+
+                </p>
+
+            </div>
+
+</footer>
+
+<!-- Back To Top -->
+
+<button id="topBtn">
+
+    <i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<body>
+
+    <script src="/js/theme.js"></script>
+    <script>
+
+        const topBtn = document.getElementById("topBtn");
+
+        window.addEventListener("scroll", () => {
+
+            topBtn.style.display = window.scrollY > 300 ? "flex" : "none";
+
+        });
+
+        topBtn.onclick = () => {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        };
+
+
+    </script>
+</body>

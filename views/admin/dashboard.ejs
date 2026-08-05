@@ -1,0 +1,266 @@
+<%- include("../partials/header") %>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<%- include("partials/sidebar") %>
+<%- include("partials/topbar") %>
+
+<div class="main-content">
+
+    <h1>Dashboard</h1>
+
+    <!-- Dashboard Cards -->
+     <div style="margin-bottom:20px;">
+
+    <a href="/admin/export/members" class="btn btn-success">
+        📥 Export Members to Excel
+    </a>
+
+</div>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <h3>👥 Members</h3>
+            <h1><%= memberCount %></h1>
+        </div>
+
+        <div class="card">
+            <h3>⏳ Pending Join</h3>
+            <h1><%= joinCount %></h1>
+        </div>
+
+        <div class="card">
+            <h3>📅 Events</h3>
+            <h1><%= eventCount %></h1>
+        </div>
+
+        <div class="card">
+            <h3>📰 News</h3>
+            <h1><%= newsCount %></h1>
+        </div>
+
+        <div class="card">
+            <h3>💰 Donations</h3>
+            <h1><%= donationCount %></h1>
+        </div>
+
+        <div class="card">
+            <h3>⌛ Pending Donations</h3>
+            <h1><%= pendingDonationCount %></h1>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- Donation Chart -->
+
+    <h2>Monthly Donation Statistics</h2>
+
+    <div class="dashboard-box">
+
+        <canvas id="donationChart"></canvas>
+
+    </div>
+
+    <hr>
+
+    <div class="dashboard-row">
+
+        <!-- Recent Join Requests -->
+
+        <div class="dashboard-box">
+
+            <h2>Recent Join Requests</h2>
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                <% recentJoins.forEach(join => { %>
+
+                    <tr>
+
+                        <td><%= join.fullname %></td>
+
+                        <td><%= join.email %></td>
+
+                        <td><%= join.status %></td>
+
+                    </tr>
+
+                <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Recent Donations -->
+
+        <div class="dashboard-box">
+
+            <h2>Recent Donations</h2>
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                <% recentDonations.forEach(donation => { %>
+
+                    <tr>
+
+                        <td><%= donation.fullname %></td>
+
+                        <td>₹ <%= donation.amount %></td>
+
+                        <td><%= donation.status %></td>
+
+                    </tr>
+
+                <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Chart.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const monthNames = [
+    "Jan","Feb","Mar","Apr","May","Jun",
+    "Jul","Aug","Sep","Oct","Nov","Dec"
+];
+
+const donationData = <%- JSON.stringify(monthlyDonations) %>;
+
+const labels = donationData.map(item => monthNames[item.month - 1]);
+
+const totals = donationData.map(item => item.total);
+
+new Chart(document.getElementById("donationChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [{
+
+            label: "Verified Donations",
+
+            data: totals,
+
+            borderWidth: 3,
+
+            tension: 0.4,
+
+            fill: false
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: true
+
+    }
+
+});
+
+</script>
+<div class="dashboard-row">
+
+    <div class="dashboard-box">
+
+        <h2>📅 Upcoming Events</h2>
+
+        <table class="table">
+
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+            </tr>
+
+            <% latestEvents.forEach(event=>{ %>
+
+            <tr>
+
+                <td><%= event.title %></td>
+
+                <td><%= event.event_date %></td>
+
+            </tr>
+
+            <% }) %>
+
+        </table>
+
+    </div>
+
+    <div class="dashboard-box">
+
+        <h2>📰 Latest News</h2>
+
+        <table class="table">
+
+            <tr>
+                <th>Title</th>
+            </tr>
+
+            <% latestNews.forEach(news=>{ %>
+
+            <tr>
+
+                <td><%= news.title %></td>
+
+            </tr>
+
+            <% }) %>
+
+        </table>
+
+    </div>
+
+</div>
+
+<%- include("../partials/footer") %>

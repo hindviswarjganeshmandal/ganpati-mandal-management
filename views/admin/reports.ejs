@@ -1,0 +1,50 @@
+<%- include("../partials/header") %>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<%- include("partials/sidebar") %>
+<%- include("partials/topbar") %>
+
+<div class="main-content">
+
+    <h1>📊 Reports</h1>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <h3>👥 Members Report</h3>
+            <br>
+            <a href="/admin/export/members" class="btn btn-primary">
+                📥 Download Members
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>💰 Donations Report</h3>
+            <br>
+            <a href="/admin/export/donations" class="btn btn-primary">
+                📥 Download Donations
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>📅 Events Report</h3>
+            <br>
+            <a href="/admin/export/events" class="btn btn-primary">
+                📥 Download Events
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>📰 News Report</h3>
+            <br>
+            <a href="/admin/export/news" class="btn btn-primary">
+                📥 Download News
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("../partials/footer") %>

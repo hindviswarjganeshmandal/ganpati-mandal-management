@@ -1,0 +1,58 @@
+<%- include("../partials/header") %>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<%- include("partials/sidebar") %>
+<%- include("partials/topbar") %>
+
+<div class="main-content">
+
+<h1>Edit Event</h1>
+
+<form action="/admin/events/edit/<%= event.id %>" method="POST">
+
+    <input
+        type="text"
+        name="title"
+        value="<%= event.title %>"
+        required>
+
+    <br><br>
+
+    <input
+        type="date"
+        name="event_date"
+        value="<%= event.event_date.toISOString().split('T')[0] %>"
+        required>
+
+    <br><br>
+
+    <input
+        type="text"
+        name="event_time"
+        value="<%= event.event_time %>">
+
+    <br><br>
+
+    <input
+        type="text"
+        name="location"
+        value="<%= event.location %>">
+
+    <br><br>
+
+    <textarea
+        name="description"
+        rows="5"><%= event.description %></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Update Event
+    </button>
+
+</form>
+
+</div>
+
+<%- include("../partials/footer") %>
