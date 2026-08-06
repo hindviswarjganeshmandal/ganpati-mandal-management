@@ -32,24 +32,23 @@ exports.showPublicMembers = async (req, res) => {
 
 exports.showMembers = async (req, res) => {
 
-    const page = parseInt(req.query.page) || 1;
+    try {
 
-    const limit = 10;
+        const members = await memberModel.getAllMembers();
 
-    const offset = (page - 1) * limit;
+        res.render("admin/members", {
+            members,
+            currentPage: 1,
+            totalPages: 1,
+            search: ""
+        });
 
-    const members = await memberModel.getMembers(limit, offset);
+    } catch (err) {
 
-    const total = await memberModel.getMemberCount();
+        console.log(err);
+        res.send(err.message);
 
-    const totalPages = Math.ceil(total / limit);
-
-    res.render("admin/members", {
-        members,
-        currentPage: page,
-        totalPages,
-        search: ""
-    });
+    }
 
 };
 
@@ -77,6 +76,41 @@ exports.showPublicMembers = async (req, res) => {
         res.render("members", {
             members: []
         });
+
+    }
+
+};
+exports.myExpenses = async (req, res) => {
+
+    try {
+
+        const member = req.session.member;
+
+        const stats = await expenseModel.getMemberExpenseStats(member.id);
+
+        const expenses = await expenseModel.getExpensesByMember(member.id);
+
+        res.render("member/dashboard", {
+
+            member,
+
+            totalAmount: stats.totalAmount || 0,
+
+            pending: stats.pending || 0,
+
+            approved: stats.approved || 0,
+
+            rejected: stats.rejected || 0,
+
+            expenses
+
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
 
     }
 

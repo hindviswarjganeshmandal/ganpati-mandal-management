@@ -1,7 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const expenseModel = require("../models/expenseModel");
-
+const memberModel = require("../models/memberModel");
 // Login Page
 exports.showLogin = (req, res) => {
     res.render("member/login");
@@ -12,30 +12,48 @@ exports.login = async (req, res) => {
 
     try {
 
-        const { username, password } = req.body;
+        const { phone, password } = req.body;
 
         const [rows] = await db.execute(
-            "SELECT * FROM members WHERE username=? AND status='Active'",
-            [username]
+
+            "SELECT * FROM members WHERE phone=?",
+
+            [phone]
+
         );
 
         if (rows.length === 0) {
-            return res.send("Invalid Username");
+
+            return res.send("Invalid Mobile Number");
+
         }
 
         const member = rows[0];
 
-        const match = await bcrypt.compare(password, member.password);
+        const match = await bcrypt.compare(
+
+            password,
+
+            member.password
+
+        );
 
         if (!match) {
+
             return res.send("Invalid Password");
+
         }
 
         req.session.member = {
+
             id: member.id,
+
             fullname: member.fullname,
-            role: member.role,
-            department: member.department
+
+            department: member.department,
+
+            phone: member.phone
+
         };
 
         res.redirect("/member/dashboard");
@@ -43,6 +61,7 @@ exports.login = async (req, res) => {
     } catch (err) {
 
         console.log(err);
+
         res.send(err.message);
 
     }
@@ -154,6 +173,92 @@ exports.showAddExpense = (req, res) => {
 };
 
 
+
+exports.showProfile = async (req, res) => {
+
+    const member = await memberModel.getMemberById(
+
+        req.session.member.id
+
+    );
+
+    res.render("member/profile", {
+
+        member
+
+    });
+
+};
+
+exports.updateProfile = async (req, res) => {
+
+    let member = req.body;
+
+    member.profile_photo = req.file
+        ? req.file.filename
+        : req.body.oldPhoto;
+
+    await memberModel.updateProfile(
+
+        req.session.member.id,
+
+        member
+
+    );
+
+    res.redirect("/member/profile");
+
+};
+// Show Page
+exports.showChangePassword = (req, res) => {
+
+    res.render("member/changePassword", {
+        member: req.session.member
+    });
+
+};
+
+// Update Password
+exports.changePassword = async (req, res) => {
+
+    try {
+
+        const { currentPassword, newPassword, confirmPassword } = req.body;
+
+        if (newPassword !== confirmPassword) {
+            return res.send("New Password and Confirm Password do not match.");
+        }
+
+        const [rows] = await db.execute(
+            "SELECT * FROM members WHERE id=?",
+            [req.session.member.id]
+        );
+
+        const member = rows[0];
+
+        const match = await bcrypt.compare(currentPassword, member.password);
+
+        if (!match) {
+            return res.send("Current Password is incorrect.");
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await db.execute(
+            "UPDATE members SET password=? WHERE id=?",
+            [hashedPassword, member.id]
+        );
+
+        res.redirect("/member/profile");
+
+    } catch (err) {
+
+        console.log(err);
+        res.send(err.message);
+
+    }
+
+};
 
 // Logout
 exports.logout = (req, res) => {

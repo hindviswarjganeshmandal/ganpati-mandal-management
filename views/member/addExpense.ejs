@@ -10,243 +10,212 @@
 
     <link rel="stylesheet" href="/css/member-dashboard.css">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
+        <!-- Sidebar -->
+        <aside class="sidebar">
 
-        <div class="logo">
+            <div class="logo">
 
-            <img src="/images/logo.png">
+                <img src="/images/logo.png">
 
-            <h2>Ganpati Mandal</h2>
+                <h2>Ganpati Mandal</h2>
 
-        </div>
+            </div>
 
-        <ul>
+            <ul>
 
-            <li>
-                <a href="/member/dashboard">
-                    <i class="fa-solid fa-house"></i>
-                    Dashboard
-                </a>
-            </li>
+                <li>
+                    <a href="/member/dashboard">
+                        <i class="fa-solid fa-house"></i>
+                        Dashboard
+                    </a>
+                </li>
 
-            <li class="active">
-                <a href="/member/add-expense">
-                    <i class="fa-solid fa-wallet"></i>
-                    Add Expense
-                </a>
-            </li>
+                <li class="active">
+                    <a href="/member/add-expense">
+                        <i class="fa-solid fa-wallet"></i>
+                        Add Expense
+                    </a>
+                </li>
 
-            <li>
-                <a href="/member/expenses">
-                    <i class="fa-solid fa-list"></i>
-                    My Expenses
-                </a>
-            </li>
+                <li>
+                    <a href="/member/expenses">
+                        <i class="fa-solid fa-list"></i>
+                        My Expenses
+                    </a>
+                </li>
 
-            <li>
-                <a href="/member/profile">
-                    <i class="fa-solid fa-user"></i>
-                    Profile
-                </a>
-            </li>
+                <li>
+                    <a href="/member/profile">
+                        <i class="fa-solid fa-user"></i>
+                        Profile
+                    </a>
+                </li>
 
-            <li>
-                <a href="/member/logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Logout
-                </a>
-            </li>
+                <li>
+                    <a href="/member/logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
+                </li>
 
-        </ul>
+            </ul>
 
-    </aside>
+        </aside>
 
-    <main class="content">
+        <main class="content">
 
-        <header>
+            <header>
 
-            <h1>Add New Expense</h1>
+                <h1>Add New Expense</h1>
 
-        </header>
+            </header>
 
-        <div class="form-card">
+            <div class="form-card">
 
-            <form
-                action="/member/add-expense"
-                method="POST"
-                enctype="multipart/form-data">
+                <form action="/member/expense/add" method="POST" enctype="multipart/form-data">
 
-                <div class="grid">
+                    <div class="grid">
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label>Date</label>
+                            <label>Date</label>
 
-                        <input
-                            type="date"
-                            name="expense_date"
-                            required>
+                            <input type="date" name="expense_date" required>
 
-                    </div>
+                        </div>
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label>Category</label>
+                            <label>Category</label>
 
-                        <select
-                            name="category"
-                            required>
+                            <select name="category" required>
 
-                            <option>Decoration</option>
+                                <option>Decoration</option>
 
-                            <option>Festival</option>
+                                <option>Festival</option>
 
-                            <option>Food</option>
+                                <option>Food</option>
 
-                            <option>Lighting</option>
+                                <option>Lighting</option>
 
-                            <option>Sound</option>
+                                <option>Sound</option>
 
-                            <option>Cleaning</option>
+                                <option>Cleaning</option>
 
-                            <option>Stationary</option>
+                                <option>Stationary</option>
 
-                            <option>Transportation</option>
+                                <option>Transportation</option>
 
-                            <option>Other</option>
+                                <option>Other</option>
 
-                        </select>
+                            </select>
 
-                    </div>
+                        </div>
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label>Item Name</label>
+                            <label>Item Name</label>
 
-                        <input
-                            type="text"
-                            name="item_name"
-                            required>
+                            <input type="text" name="item_name" required>
 
-                    </div>
+                        </div>
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label>Quantity</label>
+                            <label>Quantity</label>
 
-                        <input
-                            type="number"
-                            id="qty"
-                            name="quantity"
-                            value="1"
-                            required>
+                            <input type="number" id="qty" name="quantity" value="1" required>
 
-                    </div>
+                        </div>
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label>Price (₹)</label>
+                            <label>Price (₹)</label>
 
-                        <input
-                            type="number"
-                            id="price"
-                            name="price"
-                            required>
+                            <input type="number" id="price" name="price" required>
 
-                    </div>
+                        </div>
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label>Total</label>
+                            <label>Total</label>
 
-                        <input
-                            type="number"
-                            id="total"
-                            name="total"
-                            readonly>
+                            <input type="number" id="total" name="total" readonly>
+
+                        </div>
+
+                        <div class="form-group full">
+
+                            <label>Description</label>
+
+                            <textarea name="description" rows="4"></textarea>
+
+                        </div>
+
+                        <div class="form-group full">
+
+                            <label>Upload Bill</label>
+
+                            <input type="file" name="bill" accept="image/*,.pdf">
+
+                        </div>
 
                     </div>
 
-                    <div class="form-group full">
+                    <button type="submit" class="btn">
 
-                        <label>Description</label>
+                        <i class="fa-solid fa-floppy-disk"></i>
 
-                        <textarea
-                            name="description"
-                            rows="4"></textarea>
+                        Save Expense
 
-                    </div>
+                    </button>
 
-                    <div class="form-group full">
+                </form>
 
-                        <label>Upload Bill</label>
+            </div>
 
-                        <input
-                            type="file"
-                            name="bill"
-                            accept="image/*,.pdf">
+        </main>
 
-                    </div>
+    </div>
 
-                </div>
+    <script>
 
-                <button
-                    type="submit"
-                    class="btn">
+        const qty = document.getElementById("qty");
 
-                    <i class="fa-solid fa-floppy-disk"></i>
+        const price = document.getElementById("price");
 
-                    Save Expense
+        const total = document.getElementById("total");
 
-                </button>
+        function calculate() {
 
-            </form>
+            total.value = (
 
-        </div>
+                Number(qty.value || 0)
 
-    </main>
+                *
 
-</div>
+                Number(price.value || 0)
 
-<script>
+            );
 
-const qty=document.getElementById("qty");
+        }
 
-const price=document.getElementById("price");
+        qty.addEventListener("input", calculate);
 
-const total=document.getElementById("total");
+        price.addEventListener("input", calculate);
 
-function calculate(){
+        calculate();
 
-    total.value=(
-
-        Number(qty.value||0)
-
-        *
-
-        Number(price.value||0)
-
-    );
-
-}
-
-qty.addEventListener("input",calculate);
-
-price.addEventListener("input",calculate);
-
-calculate();
-
-</script>
+    </script>
 
 </body>
 

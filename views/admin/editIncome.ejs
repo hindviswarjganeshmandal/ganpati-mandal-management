@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Income</title>
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <link rel="stylesheet" href="/css/income.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+
+    <%- include("partials/sidebar") %>
+
+    <div class="main-content">
+
+        <div class="container">
+
+            <div class="edit-container">
+
+                <div class="edit-card">
+
+                    <div class="edit-title">
+
+                        <i class="fa-solid fa-pen-to-square"></i>
+
+                        <div>
+
+                            <h2>Edit Income</h2>
+
+                            <p>Update the income details below.</p>
+
+                        </div>
+
+                    </div>
+
+                    <form action="/admin/income/edit/<%= income.id %>" method="POST">
+
+                        <div class="grid">
+
+                            <div class="form-group">
+
+                                <label>Income Date</label>
+
+                                <input
+                                    type="date"
+                                    name="income_date"
+                                    value="<%= income.income_date ? new Date(income.income_date).toISOString().split('T')[0] : '' %>"
+                                    required>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Income Source</label>
+
+                                <select name="source" required>
+
+                                    <option value="Donation"
+                                        <%= income.source==="Donation" ? "selected" : "" %>>
+                                        Donation
+                                    </option>
+
+                                    <option value="Sponsorship"
+                                        <%= income.source==="Sponsorship" ? "selected" : "" %>>
+                                        Sponsorship
+                                    </option>
+
+                                    <option value="Membership Fee"
+                                        <%= income.source==="Membership Fee" ? "selected" : "" %>>
+                                        Membership Fee
+                                    </option>
+
+                                    <option value="Festival Collection"
+                                        <%= income.source==="Festival Collection" ? "selected" : "" %>>
+                                        Festival Collection
+                                    </option>
+
+                                    <option value="Advertisement"
+                                        <%= income.source==="Advertisement" ? "selected" : "" %>>
+                                        Advertisement
+                                    </option>
+
+                                    <option value="Other"
+                                        <%= income.source==="Other" ? "selected" : "" %>>
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Amount (₹)</label>
+
+                                <input
+                                    type="number"
+                                    name="amount"
+                                    value="<%= income.amount %>"
+                                    required>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Received From</label>
+
+                                <input
+                                    type="text"
+                                    name="received_from"
+                                    value="<%= income.received_from %>">
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Payment Method</label>
+
+                                <select name="payment_method">
+
+                                    <option value="Cash"
+                                        <%= income.payment_method==="Cash" ? "selected" : "" %>>
+                                        Cash
+                                    </option>
+
+                                    <option value="UPI"
+                                        <%= income.payment_method==="UPI" ? "selected" : "" %>>
+                                        UPI
+                                    </option>
+
+                                    <option value="Bank Transfer"
+                                        <%= income.payment_method==="Bank Transfer" ? "selected" : "" %>>
+                                        Bank Transfer
+                                    </option>
+
+                                    <option value="Cheque"
+                                        <%= income.payment_method==="Cheque" ? "selected" : "" %>>
+                                        Cheque
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="form-group full">
+
+                                <label>Description</label>
+
+                                <textarea
+                                    name="description"
+                                    rows="5"><%= income.description %></textarea>
+
+                            </div>
+
+                        </div>
+
+                        <div class="button-group">
+
+                            <button type="submit" class="btn btn-save">
+
+                                <i class="fa-solid fa-floppy-disk"></i>
+
+                                Update Income
+
+                            </button>
+
+                            <a href="/admin/income" class="btn btn-cancel">
+
+                                <i class="fa-solid fa-arrow-left"></i>
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

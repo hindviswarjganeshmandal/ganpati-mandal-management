@@ -89,7 +89,7 @@ exports.updateExpenseStatus = async (id, status) => {
     );
 
 };
-exports.getExpensesByMember = async (memberId) => {
+exports.getYearExpenses = async (year) => {
 
     const [rows] = await db.execute(
 
@@ -131,5 +131,83 @@ exports.deleteExpense = async (id) => {
         "DELETE FROM expenses WHERE id=?",
         [id]
     );
+
+};
+exports.getExpensesByMember = async (memberId) => {
+
+    const [rows] = await db.execute(
+        `
+        SELECT *
+        FROM expenses
+        WHERE member_id = ?
+        ORDER BY id DESC
+        `,
+        [memberId]
+    );
+
+    return rows;
+
+};
+exports.getTotalExpense = async () => {
+
+    const [rows] = await db.execute(`
+        SELECT IFNULL(SUM(total),0) AS total
+        FROM expenses
+        WHERE status='Approved'
+    `);
+
+    return rows[0].total;
+
+};
+exports.getYearExpense = async(year)=>{
+
+    const [rows] = await db.execute(
+
+        `
+        SELECT
+        IFNULL(SUM(total),0) total
+        FROM expenses
+        WHERE YEAR(expense_date)=?
+        AND status='Approved'
+        `,
+
+        [year]
+
+    );
+
+    return rows[0].total;
+
+};
+exports.getYearExpenses = async (year) => {
+
+    const [rows] = await db.execute(
+
+        `
+        SELECT *
+        FROM expenses
+        WHERE YEAR(expense_date)=?
+        ORDER BY expense_date DESC
+        `,
+
+        [year]
+
+    );
+
+    return rows;
+
+};
+
+exports.getRecentExpenses = async () => {
+
+    const [rows] = await db.execute(
+        `
+        SELECT *
+        FROM expenses
+        ORDER BY id DESC
+        LIMIT 5
+        `
+    );
+
+    return rows;
 
 };

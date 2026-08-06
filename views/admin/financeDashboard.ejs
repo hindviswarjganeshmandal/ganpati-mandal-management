@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finance Dashboard</title>
+
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/finance.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+
+    <%- include("partials/sidebar") %>
+
+        <div class="main-content">
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <h1>
+                        <i class="fa-solid fa-chart-line"></i>
+                        Finance Dashboard
+                    </h1>
+                    <div class="export-buttons">
+
+                        <a href="/admin/finance/export/pdf?year=<%= year %>" class="btn-pdf">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            Export PDF
+                        </a>
+
+                        <a href="/admin/finance/export/excel?year=<%= year %>" class="btn-excel">
+                            <i class="fa-solid fa-file-excel"></i>
+                            Export Excel
+                        </a>
+
+                    </div>
+
+                    <div class="year-box">
+
+                        Financial Year :
+                        <strong>
+                            <%= year %>
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="finance-cards">
+
+                    <div class="finance-card income">
+
+                        <i class="fa-solid fa-wallet"></i>
+
+                        <h3>Total Income</h3>
+
+                        <h2>₹ <%= totalIncome %>
+                        </h2>
+
+                    </div>
+
+                    <div class="finance-card expense">
+
+                        <i class="fa-solid fa-money-bill-wave"></i>
+
+                        <h3>Total Expense</h3>
+
+                        <h2>₹ <%= totalExpense %>
+                        </h2>
+
+                    </div>
+
+                    <div class="finance-card balance">
+
+                        <i class="fa-solid fa-scale-balanced"></i>
+
+                        <h3>Current Balance</h3>
+
+                        <h2>₹ <%= balance %>
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <div class="chart-grid">
+
+                    <div class="chart-box">
+
+                        <h2>Income Source</h2>
+
+                        <canvas id="incomeChart"></canvas>
+
+                    </div>
+
+                    <div class="chart-box">
+
+                        <h2>Expense Category</h2>
+
+                        <canvas id="expenseChart"></canvas>
+
+                    </div>
+                    <div class="recent-grid">
+
+                        <!-- Recent Income -->
+                        <div class="recent-card">
+
+                            <h2>
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                                Recent Income
+                            </h2>
+
+                            <table class="finance-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Date</th>
+                                        <th>Source</th>
+                                        <th>Amount</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <% if(recentIncome.length===0){ %>
+
+                                        <tr>
+
+                                            <td colspan="3" class="no-data">
+                                                No Income Found
+                                            </td>
+
+                                        </tr>
+
+                                        <% } %>
+
+                                            <% recentIncome.forEach(item=>{ %>
+
+                                                <tr>
+
+                                                    <td>
+                                                        <%= item.income_date %>
+                                                    </td>
+
+                                                    <td>
+                                                        <%= item.source %>
+                                                    </td>
+
+                                                    <td class="income">
+                                                        ₹ <%= item.amount %>
+                                                    </td>
+
+                                                </tr>
+
+                                                <% }) %>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                        <!-- Recent Expense -->
+
+                        <div class="recent-card">
+
+                            <h2>
+                                <i class="fa-solid fa-arrow-trend-down"></i>
+                                Recent Expenses
+                            </h2>
+
+                            <table class="finance-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Date</th>
+                                        <th>Category</th>
+                                        <th>Total</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <% if(recentExpense.length===0){ %>
+
+                                        <tr>
+
+                                            <td colspan="3" class="no-data">
+                                                No Expense Found
+                                            </td>
+
+                                        </tr>
+
+                                        <% } %>
+
+                                            <% recentExpense.forEach(item=>{ %>
+
+                                                <tr>
+
+                                                    <td>
+                                                        <%= item.expense_date %>
+                                                    </td>
+
+                                                    <td>
+                                                        <%= item.category %>
+                                                    </td>
+
+                                                    <td class="expense">
+                                                        ₹ <%= item.total %>
+                                                    </td>
+
+                                                </tr>
+
+                                                <% }) %>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <<!-- Hidden Data -->
+            <div id="incomeChartData" data-labels='<%- JSON.stringify(incomeSource.map(i => i.source)) %>'
+                data-values='<%- JSON.stringify(incomeSource.map(i => i.total)) %>'>
+            </div>
+
+            <div id="expenseChartData" data-labels='<%- JSON.stringify(expenseCategory.map(i => i.category)) %>'
+                data-values='<%- JSON.stringify(expenseCategory.map(i => i.total)) %>'>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script>
+
+                // ================= Income Chart =================
+
+                const incomeChartData = document.getElementById("incomeChartData");
+
+                const incomeLabels = JSON.parse(incomeChartData.dataset.labels);
+                const incomeValues = JSON.parse(incomeChartData.dataset.values);
+
+                new Chart(document.getElementById("incomeChart"), {
+
+                    type: "pie",
+
+                    data: {
+
+                        labels: incomeLabels,
+
+                        datasets: [{
+
+                            data: incomeValues,
+
+                            backgroundColor: [
+                                "#4CAF50",
+                                "#2196F3",
+                                "#FFC107",
+                                "#FF5722",
+                                "#9C27B0",
+                                "#009688",
+                                "#795548"
+                            ]
+
+                        }]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        plugins: {
+
+                            legend: {
+
+                                position: "bottom"
+
+                            }
+
+                        }
+
+                    }
+
+                });
+
+                // ================= Expense Chart =================
+
+                const expenseChartData = document.getElementById("expenseChartData");
+
+                const expenseLabels = JSON.parse(expenseChartData.dataset.labels);
+                const expenseValues = JSON.parse(expenseChartData.dataset.values);
+
+                new Chart(document.getElementById("expenseChart"), {
+
+                    type: "doughnut",
+
+                    data: {
+
+                        labels: expenseLabels,
+
+                        datasets: [{
+
+                            data: expenseValues,
+
+                            backgroundColor: [
+                                "#FF6384",
+                                "#36A2EB",
+                                "#FFCE56",
+                                "#4CAF50",
+                                "#9C27B0",
+                                "#FF9800",
+                                "#607D8B"
+                            ]
+
+                        }]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        plugins: {
+
+                            legend: {
+
+                                position: "bottom"
+
+                            }
+
+                        }
+
+                    }
+
+                });
+
+            </script>
+
+</body>
+
+</html>

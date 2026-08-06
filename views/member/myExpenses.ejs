@@ -9,6 +9,7 @@
     <title>My Expenses</title>
 
     <link rel="stylesheet" href="/css/member-dashboard.css">
+
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
@@ -19,6 +20,7 @@
 <div class="dashboard">
 
     <!-- Sidebar -->
+
     <aside class="sidebar">
 
         <div class="logo">
@@ -55,7 +57,7 @@
             <li>
                 <a href="/member/profile">
                     <i class="fa-solid fa-user"></i>
-                    Profile
+                    My Profile
                 </a>
             </li>
 
@@ -70,15 +72,31 @@
 
     </aside>
 
+    <!-- Main -->
+
     <main class="content">
 
         <header>
 
-            <h1>My Expenses</h1>
+            <div>
+
+                <h1>My Expenses</h1>
+
+                <p>Expense History</p>
+
+            </div>
+
+            <a href="/member/add-expense" class="btn">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Expense
+
+            </a>
 
         </header>
 
-        <div class="table-section">
+        <section class="table-section">
 
             <table>
 
@@ -87,20 +105,14 @@
                     <tr>
 
                         <th>Date</th>
-
                         <th>Category</th>
-
                         <th>Item</th>
-
                         <th>Qty</th>
-
                         <th>Price</th>
-
                         <th>Total</th>
-
                         <th>Status</th>
-
                         <th>Bill</th>
+                        <th>Action</th>
 
                     </tr>
 
@@ -108,7 +120,7 @@
 
                 <tbody>
 
-                <% if(expenses.length > 0){ %>
+                <% if(expenses.length>0){ %>
 
                     <% expenses.forEach(expense=>{ %>
 
@@ -138,19 +150,32 @@
 
                         <td>
 
-                            <% if(expense.bill){ %>
+                        <% if(expense.bill){ %>
 
-                                <a href="/uploads/bills/<%= expense.bill %>" target="_blank">
+                            <a href="/uploads/<%= expense.bill %>" target="_blank">
 
-                                    <i class="fa-solid fa-file"></i>
+                                View
 
-                                </a>
+                            </a>
 
-                            <% }else{ %>
+                        <% } else { %>
 
-                                -
+                            -
 
-                            <% } %>
+                        <% } %>
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/member/expense/delete/<%= expense.id %>"
+                                class="delete-btn"
+                                onclick="return confirm('Delete this expense?')">
+
+                                Delete
+
+                            </a>
 
                         </td>
 
@@ -162,7 +187,12 @@
 
                     <tr>
 
-                        <td colspan="8">
+                        <td colspan="9" style="text-align:center;padding:40px;">
+
+                            <i class="fa-solid fa-folder-open"
+                               style="font-size:45px;color:#bbb;"></i>
+
+                            <br><br>
 
                             No Expense Found
 
@@ -176,11 +206,12 @@
 
             </table>
 
-        </div>
+        </section>
 
     </main>
 
 </div>
 
 </body>
+
 </html>

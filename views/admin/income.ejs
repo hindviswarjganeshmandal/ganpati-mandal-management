@@ -8,108 +8,278 @@
 <title>Income Management</title>
 
 <link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/income.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
 </head>
-
 <body>
+
+<%- include("partials/sidebar") %>
+
+<div class="main-content">
 
 <div class="container">
 
-    <h1>Income Management</h1>
+<div class="page-title">
 
-    <!-- Total Income -->
+<div>
+<h1>Income Management</h1>
+<p>Manage all Mandal income records</p>
+</div>
 
-    <div class="cards">
+</div>
 
-        <div class="card income">
+<div class="cards">
 
-            <i class="fa-solid fa-money-bill-wave"></i>
+<div class="card">
 
-            <h3>Total Income</h3>
+<i class="fa-solid fa-wallet"></i>
 
-            <h2>₹ <%= totalIncome %></h2>
+<h3>Total Income</h3>
 
-        </div>
+<h2>₹ <%= totalIncome %></h2>
 
-    </div>
+</div>
 
-    <!-- Add Income -->
+</div>
 
-    <div class="box">
+<!-- ================= ADD INCOME ================= -->
 
-        <h2>Add Income</h2>
+<div class="box">
 
-        <form action="/admin/income/add" method="POST">
+    <h2>
+        <i class="fa-solid fa-circle-plus"></i>
+        Add New Income
+    </h2>
 
-            <div class="grid">
+    <form action="/admin/income/add" method="POST">
+
+        <div class="grid">
+
+            <div class="form-group">
+
+                <label>Income Date</label>
 
                 <input
                     type="date"
                     name="income_date"
                     required>
 
-                <input
-                    type="text"
+            </div>
+
+            <div class="form-group">
+
+                <label>Income Source</label>
+
+                <select
                     name="source"
-                    placeholder="Income Source"
                     required>
+
+                    <option value="">Select Source</option>
+
+                    <option>Donation</option>
+
+                    <option>Sponsorship</option>
+
+                    <option>Membership Fee</option>
+
+                    <option>Festival Collection</option>
+
+                    <option>Advertisement</option>
+
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Amount (₹)</label>
 
                 <input
                     type="number"
-                    step="0.01"
                     name="amount"
-                    placeholder="Amount"
+                    placeholder="Enter Amount"
                     required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Received From</label>
 
                 <input
                     type="text"
                     name="received_from"
-                    placeholder="Received From"
-                    required>
+                    placeholder="Person / Organization">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Payment Method</label>
 
                 <select name="payment_method">
 
                     <option>Cash</option>
+
                     <option>UPI</option>
-                    <option>Bank</option>
+
+                    <option>Bank Transfer</option>
+
                     <option>Cheque</option>
 
                 </select>
 
-                <input
-                    type="text"
-                    name="reference_no"
-                    placeholder="Reference Number">
+            </div>
+
+            <div class="form-group full">
+
+                <label>Description</label>
 
                 <textarea
-                    class="full"
                     name="description"
-                    placeholder="Description"></textarea>
+                    rows="4"
+                    placeholder="Write income description..."></textarea>
 
             </div>
 
-            <br>
+        </div>
 
-            <button class="btn">
+        <br>
 
-                <i class="fa-solid fa-plus"></i>
+        <button class="btn">
 
-                Add Income
+            <i class="fa-solid fa-floppy-disk"></i>
 
-            </button>
+            Save Income
 
-        </form>
+        </button>
+
+    </form>
+
+</div>
+
+</div>
+
+</div>
+<div class="box">
+
+    <h2>
+        <i class="fa-solid fa-filter"></i>
+        Search Income
+    </h2>
+
+    <form action="/admin/income" method="GET">
+
+        <div class="grid">
+
+            <div class="form-group">
+
+                <label>Search</label>
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Source / Received From"
+                    value="<%= search || '' %>">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Month</label>
+
+                <select name="month">
+
+                    <option value="">All Months</option>
+
+                    <% for(let i=1;i<=12;i++){ %>
+
+                    <option
+                        value="<%= i %>"
+                        <%= month==i ? "selected" : "" %>>
+
+                        <%= i %>
+
+                    </option>
+
+                    <% } %>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Year</label>
+
+                <input
+                    type="number"
+                    name="year"
+                    placeholder="2026"
+                    value="<%= year || '' %>">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Payment</label>
+
+                <select name="payment_method">
+
+                    <option value="">All</option>
+
+                    <option value="Cash">Cash</option>
+
+                    <option value="UPI">UPI</option>
+
+                    <option value="Bank Transfer">Bank Transfer</option>
+
+                    <option value="Cheque">Cheque</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Search
+
+        </button>
+
+        <a href="/admin/income" class="btn btn-danger">
+
+            Reset
+
+        </a>
+
+    </form>
+
+</div>
+<!-- ================= INCOME HISTORY ================= -->
+
+<div class="box">
+
+    <div class="table-header">
+
+        <h2>
+            <i class="fa-solid fa-table"></i>
+            Income History
+        </h2>
 
     </div>
 
-    <!-- Income Table -->
-
-    <div class="box">
-
-        <h2>Income History</h2>
+    <div class="table-box">
 
         <table>
 
@@ -117,12 +287,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
 
                 <tr>
 
+                    <th>#</th>
+
                     <th>Date</th>
+
                     <th>Source</th>
+
                     <th>Amount</th>
+
                     <th>Received From</th>
+
                     <th>Payment</th>
-                    <th>Reference</th>
+
+                    <th>Description</th>
+
                     <th>Action</th>
 
                 </tr>
@@ -131,53 +309,78 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
 
             <tbody>
 
-            <% if(income.length > 0){ %>
+                <% if(income.length > 0){ %>
 
-                <% income.forEach(item => { %>
+                    <% income.forEach((item,index)=>{ %>
 
-                <tr>
+                    <tr>
 
-                    <td><%= item.income_date %></td>
+                        <td><%= index + 1 %></td>
 
-                    <td><%= item.source %></td>
+                        <td><%= item.income_date %></td>
 
-                    <td>₹ <%= item.amount %></td>
+                        <td>
+                            <span class="badge">
+                                <%= item.source %>
+                            </span>
+                        </td>
 
-                    <td><%= item.received_from %></td>
+                        <td class="amount">
+                            ₹ <%= item.amount %>
+                        </td>
 
-                    <td><%= item.payment_method %></td>
+                        <td><%= item.received_from %></td>
 
-                    <td><%= item.reference_no || "-" %></td>
+                        <td><%= item.payment_method %></td>
 
-                    <td>
+                        <td><%= item.description %></td>
 
-                        <a
-                        href="/admin/income/delete/<%= item.id %>"
-                        onclick="return confirm('Delete this income record?')">
+                        <td>
 
-                            <i class="fa-solid fa-trash"></i>
+                            <div class="action">
 
-                        </a>
+                                <a
+                                    href="/admin/income/edit/<%= item.id %>"
+                                    class="edit"
+                                    title="Edit">
 
-                    </td>
+                                    <i class="fa-solid fa-pen"></i>
 
-                </tr>
+                                </a>
 
-                <% }) %>
+                                <a
+                                    href="/admin/income/delete/<%= item.id %>"
+                                    class="delete"
+                                    onclick="return confirm('Delete this income record?')"
+                                    title="Delete">
 
-            <% } else { %>
+                                    <i class="fa-solid fa-trash"></i>
 
-                <tr>
+                                </a>
 
-                    <td colspan="7" style="text-align:center;">
+                            </div>
 
-                        No income records found.
+                        </td>
 
-                    </td>
+                    </tr>
 
-                </tr>
+                    <% }) %>
 
-            <% } %>
+                <% } else { %>
+
+                    <tr>
+
+                        <td colspan="8" style="text-align:center;padding:30px;">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            No income records found.
+
+                        </td>
+
+                    </tr>
+
+                <% } %>
 
             </tbody>
 

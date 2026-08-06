@@ -9,7 +9,7 @@ const joinController = require("../controllers/joinController");
 const donationController = require("../controllers/donationController");
 const galleryController = require("../controllers/galleryController");
 const memberController = require("../controllers/memberController");
-
+const accountController = require("../controllers/accountController");
 // Home
 router.get("/", homeController.homePage);
 
@@ -51,5 +51,8 @@ router.post(
 router.get("/contact", (req, res) => {
     res.render("contact");
 });
-
+router.get(
+    "/accounts",
+    accountController.showAccounts
+);
 module.exports = router;

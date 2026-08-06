@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mandal Accounts</title>
+
+    <link rel="stylesheet" href="/css/accounts.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="filter-box">
+
+        <form action="/accounts" method="GET">
+
+            <label><strong>Financial Year :</strong></label>
+
+            <select name="year" onchange="this.form.submit()">
+
+                <% for(let y=2024; y<=new Date().getFullYear(); y++){ %>
+
+                    <option value="<%= y %>" <%=Number(year)===y ? "selected" : "" %>>
+
+                        <%= y %>
+
+                    </option>
+
+                    <% } %>
+
+            </select>
+
+        </form>
+
+    </div>
+
+    <div class="container">
+
+        <h1>💰 Mandal Accounts</h1>
+
+        <!-- Summary Cards -->
+
+        <div class="cards">
+
+            <div class="card income">
+
+                <i class="fa-solid fa-arrow-trend-up"></i>
+
+                <h3>Total Income</h3>
+
+                <h2>₹ <%= totalIncome %>
+                </h2>
+
+            </div>
+
+            <div class="card expense">
+
+                <i class="fa-solid fa-arrow-trend-down"></i>
+
+                <h3>Total Expenses</h3>
+
+                <h2>₹ <%= totalExpense %>
+                </h2>
+
+            </div>
+
+            <div class="card balance">
+
+                <i class="fa-solid fa-wallet"></i>
+
+                <h3>Available Balance</h3>
+
+                <h2>₹ <%= balance %>
+                </h2>
+
+            </div>
+
+        </div>
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Search Income / Expense...">
+        </div>
+
+        <!-- Income -->
+
+        <div class="table-box">
+
+            <h2>Income List</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Source</th>
+                        <th>Received From</th>
+                        <th>Amount</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <% incomeList.forEach(income=>{ %>
+
+                        <tr>
+
+                            <td>
+                                <%= income.income_date %>
+                            </td>
+
+                            <td>
+                                <%= income.source %>
+                            </td>
+
+                            <td>
+                                <%= income.received_from %>
+                            </td>
+
+                            <td>₹ <%= income.amount %>
+                            </td>
+
+                        </tr>
+
+                        <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Expenses -->
+
+        <div class="table-box">
+
+            <h2>Approved Expense List</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Member</th>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Amount</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <% expenseList.forEach(expense=>{ %>
+
+                        <tr>
+
+                            <td>
+                                <%= expense.expense_date %>
+                            </td>
+
+                            <td>
+                                <%= expense.fullname %>
+                            </td>
+
+                            <td>
+                                <%= expense.category %>
+                            </td>
+
+                            <td>
+                                <%= expense.item_name %>
+                            </td>
+
+                            <td>₹ <%= expense.total %>
+                            </td>
+
+                        </tr>
+
+                        <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+    <a
+    href="/accounts/export/pdf?year=<%= year %>"
+    class="btn">
+
+    Download PDF
+
+</a>
+<a
+    href="/accounts/export/excel?year=<%= year %>"
+    class="btn">
+
+    Download Excel
+
+</a>
+    <script>
+const search = document.getElementById("search");
+
+search.addEventListener("keyup", function () {
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(filter)
+            ? ""
+            : "none";
+
+    });
+
+});
+</script>
+
+</body>
+
+</html>

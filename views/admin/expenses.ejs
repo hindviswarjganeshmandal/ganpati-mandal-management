@@ -10,195 +10,200 @@
 
     <link rel="stylesheet" href="/css/admin.css">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="admin-container">
+    <div class="admin-container">
 
-    <%- include("partials/sidebar") %>
+        <%- include("partials/sidebar") %>
 
-    <main class="main-content">
+            <main class="main-content">
 
-        <%- include("partials/topbar") %>
+                <%- include("partials/topbar") %>
 
-        <div class="page-header">
+                    <div class="page-header">
 
-            <h1>Expense Management</h1>
+                        <h1>Expense Management</h1>
 
-            <p>Manage all member expenses</p>
+                        <p>Manage all member expenses</p>
 
-        </div>
+                    </div>
 
-        <div class="table-card">
+                    <div class="table-card">
 
-            <table>
+                        <table>
 
-                <thead>
+                            <thead>
 
-                    <tr>
+                                <tr>
 
-                        <th>ID</th>
-                        <th>Member</th>
-                        <th>Department</th>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Item</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Bill</th>
-                        <th>Action</th>
+                                    <th>ID</th>
+                                    <th>Member</th>
+                                    <th>Department</th>
+                                    <th>Date</th>
+                                    <th>Category</th>
+                                    <th>Item</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Bill</th>
+                                    <th>Action</th>
 
-                    </tr>
+                                </tr>
 
-                </thead>
+                            </thead>
 
-                <tbody>
+                            <tbody>
 
-                <% if(expenses.length > 0){ %>
+                                <% if(expenses.length> 0){ %>
 
-                    <% expenses.forEach(expense=>{ %>
+                                    <% expenses.forEach(expense=>{ %>
 
-                    <tr>
+                                        <tr>
 
-                        <td><%= expense.id %></td>
+                                            <td>
+                                                <%= expense.id %>
+                                            </td>
 
-                        <td><%= expense.fullname %></td>
+                                            <td>
+                                                <%= expense.fullname %>
+                                            </td>
 
-                        <td><%= expense.department %></td>
+                                            <td>
+                                                <%= expense.department %>
+                                            </td>
 
-                        <td><%= expense.expense_date %></td>
+                                            <td>
+                                                <%= expense.expense_date %>
+                                            </td>
 
-                        <td><%= expense.category %></td>
+                                            <td>
+                                                <%= expense.category %>
+                                            </td>
 
-                        <td><%= expense.item_name %></td>
+                                            <td>
+                                                <%= expense.item_name %>
+                                            </td>
 
-                        <td>
+                                            <td>
 
-                            <strong>
+                                                <strong>
 
-                                ₹ <%= expense.total %>
+                                                    ₹ <%= expense.total %>
 
-                            </strong>
+                                                </strong>
 
-                        </td>
+                                            </td>
 
-                        <td>
+                                            <td>
 
-                            <% if(expense.status=="Pending"){ %>
+                                                <% if(expense.status=="Pending" ){ %>
 
-                                <span class="badge pending">
+                                                    <span class="badge pending">
 
-                                    Pending
+                                                        Pending
 
-                                </span>
+                                                    </span>
 
-                            <% } %>
+                                                    <% } %>
 
-                            <% if(expense.status=="Approved"){ %>
+                                                        <% if(expense.status=="Approved" ){ %>
 
-                                <span class="badge approved">
+                                                            <span class="badge approved">
 
-                                    Approved
+                                                                Approved
 
-                                </span>
+                                                            </span>
 
-                            <% } %>
+                                                            <% } %>
 
-                            <% if(expense.status=="Rejected"){ %>
+                                                                <% if(expense.status=="Rejected" ){ %>
 
-                                <span class="badge rejected">
+                                                                    <span class="badge rejected">
 
-                                    Rejected
+                                                                        Rejected
 
-                                </span>
+                                                                    </span>
 
-                            <% } %>
+                                                                    <% } %>
 
-                        </td>
+                                            </td>
 
-                        <td>
+                                            <td>
 
-                            <% if(expense.bill){ %>
+                                                <% if(expense.bill){ %>
 
-                                <a href="/uploads/bills/<%= expense.bill %>" target="_blank">
+                                                    <a href="/uploads/bills/<%= expense.bill %>" target="_blank">
 
-                                    View Bill
+                                                        View Bill
 
-                                </a>
+                                                    </a>
 
-                            <% } else { %>
+                                                    <% } else { %>
 
-                                -
+                                                        -
 
-                            <% } %>
+                                                        <% } %>
 
-                        </td>
+                                            </td>
 
-                        <td>
+                                            <td>
 
-                            <% if(expense.status=="Pending"){ %>
+                                                <% if(expense.status=="Pending" ){ %>
 
-                                <a class="btn approve"
+                                                    <a href="/admin/expenses/approve/<%= expense.id %>"
+                                                        class="btn btn-success">
+                                                        Approve
+                                                    </a>
 
-                                    href="/admin/expense/approve/<%= expense.id %>">
+                                                    <a class="btn reject"
+                                                        href="/admin/expense/reject/<%= expense.id %>">
 
-                                    Approve
+                                                        Reject
 
-                                </a>
+                                                    </a>
 
-                                <a class="btn reject"
+                                                    <% } %>
 
-                                    href="/admin/expense/reject/<%= expense.id %>">
+                                                        <a class="btn delete"
+                                                            onclick="return confirm('Delete this expense?')"
+                                                            href="/admin/expense/delete/<%= expense.id %>">
 
-                                    Reject
+                                                            Delete
 
-                                </a>
+                                                        </a>
 
-                            <% } %>
+                                            </td>
 
-                            <a class="btn delete"
+                                        </tr>
 
-                                onclick="return confirm('Delete this expense?')"
+                                        <% }) %>
 
-                                href="/admin/expense/delete/<%= expense.id %>">
+                                            <% } else { %>
 
-                                Delete
+                                                <tr>
 
-                            </a>
+                                                    <td colspan="10">
 
-                        </td>
+                                                        No Expenses Found
 
-                    </tr>
+                                                    </td>
 
-                    <% }) %>
+                                                </tr>
 
-                <% } else { %>
+                                                <% } %>
 
-                    <tr>
+                            </tbody>
 
-                        <td colspan="10">
+                        </table>
 
-                            No Expenses Found
+                    </div>
 
-                        </td>
+            </main>
 
-                    </tr>
-
-                <% } %>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </main>
-
-</div>
+    </div>
 
 </body>
 

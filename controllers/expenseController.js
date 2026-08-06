@@ -1,11 +1,15 @@
 const expenseModel = require("../models/expenseModel");
 
+// ================= MEMBER =================
+
+// Show Add Expense Page
 exports.showAddExpense = (req, res) => {
 
     res.render("member/addExpense");
 
 };
 
+// Save Expense
 exports.addExpense = async (req, res) => {
 
     try {
@@ -32,7 +36,7 @@ exports.addExpense = async (req, res) => {
 
         });
 
-        res.redirect("/expense/my");
+        res.redirect("/member/expenses");
 
     } catch (err) {
 
@@ -44,87 +48,20 @@ exports.addExpense = async (req, res) => {
 
 };
 
+// My Expenses
 exports.myExpenses = async (req, res) => {
-
-    const expenses = await expenseModel.getExpensesByMember(
-
-        req.session.member.id
-
-    );
-
-    res.render("member/myExpenses", {
-
-        expenses
-
-    });
-
-};
-// Admin Expense List
-exports.adminExpenses = async (req, res) => {
-
-    const expenses = await expenseModel.getAllExpenses();
-
-    res.render("admin/expenses", {
-
-        expenses
-
-    });
-
-};
-
-// Approve
-exports.approveExpense = async (req, res) => {
-
-    await expenseModel.updateStatus(
-
-        req.params.id,
-
-        "Approved"
-
-    );
-
-    res.redirect("/admin/expenses");
-
-};
-
-// Reject
-exports.rejectExpense = async (req, res) => {
-
-    await expenseModel.updateStatus(
-
-        req.params.id,
-
-        "Rejected"
-
-    );
-
-    res.redirect("/admin/expenses");
-
-};
-
-// Delete
-exports.deleteExpense = async (req, res) => {
-
-    await expenseModel.deleteExpense(
-
-        req.params.id
-
-    );
-
-    res.redirect("/admin/expenses");
-
-};
-
-
-// Show All Expenses
-exports.adminExpenses = async (req, res) => {
 
     try {
 
-        const expenses = await expenseModel.getAllExpenses();
+        const expenses = await expenseModel.getExpensesByMember(
+            req.session.member.id
+        );
 
-        res.render("admin/expenses", {
+        res.render("member/myExpenses", {
+
+            member: req.session.member,
             expenses
+
         });
 
     } catch (err) {
@@ -137,14 +74,61 @@ exports.adminExpenses = async (req, res) => {
 
 };
 
-// Approve
+// Delete My Expense
+exports.deleteMyExpense = async (req, res) => {
+
+    try {
+
+        await expenseModel.deleteExpense(req.params.id);
+
+        res.redirect("/member/expenses");
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
+
+    }
+
+};
+
+// ================= ADMIN =================
+
+// Show All Expenses
+exports.adminExpenses = async (req, res) => {
+
+    try {
+
+        const expenses = await expenseModel.getAllExpenses();
+
+        res.render("admin/expenses", {
+
+            expenses
+
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.send(err.message);
+
+    }
+
+};
+
+// Approve Expense
 exports.approveExpense = async (req, res) => {
 
     try {
 
         await expenseModel.updateExpenseStatus(
+
             req.params.id,
+
             "Approved"
+
         );
 
         res.redirect("/admin/expenses");
@@ -159,14 +143,17 @@ exports.approveExpense = async (req, res) => {
 
 };
 
-// Reject
+// Reject Expense
 exports.rejectExpense = async (req, res) => {
 
     try {
 
         await expenseModel.updateExpenseStatus(
+
             req.params.id,
+
             "Rejected"
+
         );
 
         res.redirect("/admin/expenses");
@@ -181,7 +168,7 @@ exports.rejectExpense = async (req, res) => {
 
 };
 
-// Delete
+// Delete Expense
 exports.deleteExpense = async (req, res) => {
 
     try {

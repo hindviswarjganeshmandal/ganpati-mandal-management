@@ -21,6 +21,9 @@ const expenseController = require("../controllers/expenseController");
 const adminExpenseController = require("../controllers/adminExpenseController");
 const managementController = require("../controllers/managementController");
 const incomeController = require("../controllers/incomeController");
+const financeController = require("../controllers/financeController");
+const financeExportController = require("../controllers/financeExportController");
+const bcrypt = require("bcrypt");
 // ================= Dashboard =================
 
 router.get("/dashboard", auth, async (req, res) => {
@@ -139,17 +142,22 @@ router.get("/approve/:id", auth, async (req, res) => {
         }
 
         const member = rows[0];
+        // Temporary password
+        const tempPassword = "Ganpati@123";
 
+        // Encrypt password
+        const hashedPassword = await bcrypt.hash(tempPassword, 10);
         await db.execute(
             `INSERT INTO members
-            (fullname,email,phone,address,photo)
-            VALUES (?,?,?,?,?)`,
+(fullname,email,phone,address,photo,password)
+VALUES (?,?,?,?,?,?)`,
             [
-                member.fullname,
-                member.email,
-                member.phone,
-                member.address,
-                member.photo
+             member.fullname,
+    member.email,
+    member.phone,
+    member.address,
+    member.photo,
+    hashedPassword
             ]
         );
 
@@ -453,7 +461,7 @@ router.get(
 );
 // ================= INCOME =================
 
-// Income Page
+// Income List
 router.get(
     "/income",
     auth,
@@ -467,10 +475,44 @@ router.post(
     incomeController.addIncome
 );
 
+// Edit Income Page
+router.get(
+    "/income/edit/:id",
+    auth,
+    incomeController.showEditIncome
+);
+
+// Update Income
+router.post(
+    "/income/edit/:id",
+    auth,
+    incomeController.updateIncome
+);
+
 // Delete Income
 router.get(
     "/income/delete/:id",
     auth,
     incomeController.deleteIncome
+);
+router.get(
+    "/finance",
+    auth,
+    financeController.dashboard
+);
+// ================= FINANCE EXPORT =================
+
+// Export PDF
+router.get(
+    "/finance/export/pdf",
+    auth,
+    financeExportController.exportPDF
+);
+
+// Export Excel
+router.get(
+    "/finance/export/excel",
+    auth,
+    financeExportController.exportExcel
 );
 module.exports = router;
