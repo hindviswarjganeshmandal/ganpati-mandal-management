@@ -31,6 +31,19 @@ exports.addExpense = async (expense) => {
     );
 
 };
+exports.getExpenseCategoryReport = async (year) => {
+    const [rows] = await db.query(`
+        SELECT 
+            category,
+            SUM(total) AS total
+        FROM expenses
+        WHERE YEAR(expense_date) = ?
+        GROUP BY category
+        ORDER BY total DESC
+    `, [year]);
+
+    return rows;
+};
 
 // Member Expenses
 exports.getMemberExpenses = async (memberId) => {

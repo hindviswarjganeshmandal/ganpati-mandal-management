@@ -1,62 +1,137 @@
-<link rel="stylesheet" href="/css/admin.css">
-
 <%- include("partials/sidebar") %>
-
 <%- include("partials/topbar") %>
+<link rel="stylesheet" href="/css/news-admin.css">
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+<div class="news-admin-container">
 
-<div class="main-content">
+    <!-- Page Header -->
+    <div class="news-header">
+        <div>
+            <h1>
+                <i class="fa-solid fa-newspaper"></i>
+                Latest News
+            </h1>
+            <p>Publish and manage mandal news and updates.</p>
+        </div>
+    </div>
 
-    <!-- Existing page content -->
 
-</div>
-<%- include("../partials/navbar") %>
+    <!-- Add News Card -->
+    <div class="news-form-card">
 
-<div class="container">
+        <div class="card-title">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <div>
+                <h2>Publish News</h2>
+                <p>Create a new news update</p>
+            </div>
+        </div>
 
-    <h1>Latest News</h1>
+        <form action="/admin/news/add" method="POST">
 
-    <form action="/admin/news/add" method="POST">
+            <div class="form-group">
+                <label>
+                    <i class="fa-solid fa-heading"></i>
+                    News Title
+                </label>
 
-        <input
-            type="text"
-            name="title"
-            placeholder="News Title"
-            required>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Enter news title"
+                    required>
+            </div>
 
-        <br><br>
 
-        <textarea
-            name="description"
-            rows="5"
-            placeholder="News Description"
-            required></textarea>
+            <div class="form-group">
+                <label>
+                    <i class="fa-solid fa-align-left"></i>
+                    News Description
+                </label>
 
-        <br><br>
+                <textarea
+                    name="description"
+                    rows="6"
+                    placeholder="Write your news description..."
+                    required></textarea>
+            </div>
 
-        <button type="submit">
-            Publish News
-        </button>
 
-    </form>
+            <button type="submit" class="publish-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+                Publish News
+            </button>
 
-    <hr>
+        </form>
 
-    <% news.forEach(item => { %>
+    </div>
 
-        <div style="margin-bottom:20px;">
 
-            <h3><%= item.title %></h3>
+    <!-- News List -->
+    <div class="published-section">
 
-            <p><%= item.description %></p>
+        <div class="section-heading">
+            <div>
+                <h2>
+                    <i class="fa-solid fa-list"></i>
+                    Published News
+                </h2>
 
-            <small><%= item.created_at %></small>
+                <p>Latest news and updates</p>
+            </div>
+        </div>
+
+
+        <div class="news-list">
+
+            <% if (news.length === 0) { %>
+
+                <div class="no-news">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <h3>No News Published</h3>
+                    <p>Publish your first news update above.</p>
+                </div>
+
+            <% } %>
+
+
+            <% news.forEach(item => { %>
+
+                <div class="news-item">
+
+                    <div class="news-icon">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+
+                    <div class="news-content">
+
+                        <h3>
+                            <%= item.title %>
+                        </h3>
+
+                        <p>
+                            <%= item.description %>
+                        </p>
+
+                        <div class="news-date">
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <%= new Date(item.created_at).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric"
+                            }) %>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
 
         </div>
 
-        <hr>
-
-    <% }) %>
+    </div>
 
 </div>
-
-<%- include("../partials/footer") %>

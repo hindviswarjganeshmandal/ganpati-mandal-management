@@ -1,0 +1,329 @@
+/* =================================
+   NEWS ADMIN
+================================= */
+
+.news-admin-container {
+    margin-left: 250px;
+    padding: 35px;
+    background: #f5f7fb;
+    min-height: calc(100vh - 70px);
+}
+
+
+/* =================================
+   HEADER
+================================= */
+
+.news-header {
+    margin-bottom: 25px;
+}
+
+.news-header h1 {
+    margin: 0;
+    color: #1f4e79;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.news-header h1 i {
+    color: #ff6600;
+    margin-right: 8px;
+}
+
+.news-header p {
+    margin: 7px 0 0;
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* =================================
+   FORM CARD
+================================= */
+
+.news-form-card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
+    margin-bottom: 30px;
+}
+
+
+/* Card title */
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card-title > i {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff3e8;
+    color: #ff6600;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.card-title h2 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 21px;
+}
+
+.card-title p {
+    margin: 4px 0 0;
+    color: #888;
+    font-size: 13px;
+}
+
+
+/* =================================
+   FORM
+================================= */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group label i {
+    color: #ff6600;
+    margin-right: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    border: 1px solid #dfe3e8;
+    border-radius: 9px;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    background: #fafbfc;
+    transition: .2s;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #ff6600;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, .10);
+}
+
+
+/* =================================
+   PUBLISH BUTTON
+================================= */
+
+.publish-btn {
+    border: none;
+    padding: 12px 22px;
+    border-radius: 9px;
+    background: #ff6600;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.publish-btn i {
+    margin-right: 7px;
+}
+
+.publish-btn:hover {
+    background: #e85c00;
+    transform: translateY(-1px);
+}
+
+
+/* =================================
+   PUBLISHED NEWS
+================================= */
+
+.published-section {
+    background: #fff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
+}
+
+.section-heading {
+    margin-bottom: 22px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    color: #1f4e79;
+    font-size: 21px;
+}
+
+.section-heading h2 i {
+    color: #ff6600;
+    margin-right: 7px;
+}
+
+.section-heading p {
+    margin: 5px 0 0;
+    color: #888;
+    font-size: 13px;
+}
+
+
+/* =================================
+   NEWS ITEM
+================================= */
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.news-item {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid #edf0f3;
+    border-radius: 12px;
+    background: #fafbfc;
+    transition: .2s;
+}
+
+.news-item:hover {
+    background: #fff;
+    border-color: #ffd7bd;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .05);
+}
+
+
+/* News icon */
+
+.news-icon {
+    min-width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff3e8;
+    color: #ff6600;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+
+/* News content */
+
+.news-content {
+    flex: 1;
+}
+
+.news-content h3 {
+    margin: 0 0 7px;
+    color: #1f2937;
+    font-size: 17px;
+}
+
+.news-content p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.news-date {
+    margin-top: 12px;
+    color: #999;
+    font-size: 12px;
+}
+
+.news-date i {
+    margin-right: 5px;
+    color: #ff6600;
+}
+
+
+/* =================================
+   NO NEWS
+================================= */
+
+.no-news {
+    text-align: center;
+    padding: 50px 20px;
+    color: #888;
+}
+
+.no-news i {
+    font-size: 40px;
+    color: #ff6600;
+    margin-bottom: 12px;
+}
+
+.no-news h3 {
+    margin: 5px 0;
+    color: #555;
+}
+
+.no-news p {
+    margin: 0;
+    font-size: 13px;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+    .news-admin-container {
+        margin-left: 0;
+        padding: 20px 15px;
+    }
+
+    .news-header h1 {
+        font-size: 25px;
+    }
+
+    .news-form-card,
+    .published-section {
+        padding: 20px;
+    }
+
+    .news-item {
+        padding: 15px;
+    }
+
+    .news-content h3 {
+        font-size: 15px;
+    }
+
+    .news-content p {
+        font-size: 13px;
+    }
+
+    .publish-btn {
+        width: 100%;
+    }
+}

@@ -51,17 +51,190 @@ body{
     padding-left:35px;
 }
 
-/* ================= Topbar ================= */
+/* =================================
+   ADMIN TOPBAR
+================================= */
 
-.topbar{
-    margin-left:260px;
-    height:70px;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 30px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+.admin-topbar {
+    height: 70px;
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 25px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 900;
+}
+
+
+/* LEFT */
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sidebar-toggle {
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #fff3e8;
+    color: #ff6600;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.sidebar-toggle:hover {
+    background: #ff6600;
+    color: #fff;
+}
+
+
+.admin-page-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #1f4e79;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.admin-page-title i {
+    color: #ff6600;
+}
+
+
+/* RIGHT */
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+/* ADMIN USER */
+
+.admin-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-user-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #1f4e79;
+    color: #fff;
+}
+
+.admin-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-user-info strong {
+    color: #333;
+    font-size: 14px;
+}
+
+.admin-user-info small {
+    color: #888;
+    font-size: 11px;
+}
+
+
+/* LOGOUT */
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 9px 14px;
+
+    border-radius: 7px;
+
+    background: #fee2e2;
+    color: #dc2626;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: .2s;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+    .admin-topbar {
+        height: 60px;
+        padding: 0 15px;
+    }
+
+    .admin-page-title {
+        font-size: 16px;
+    }
+
+    .admin-page-title i {
+        display: none;
+    }
+
+    .admin-user-info {
+        display: none;
+    }
+
+    .topbar-right {
+        gap: 8px;
+    }
+
+    .logout-btn {
+        width: 40px;
+        height: 40px;
+
+        padding: 0;
+
+        justify-content: center;
+    }
+
+    .logout-btn span {
+        display: none;
+    }
 }
 
 /* ================= Main ================= */
@@ -408,5 +581,395 @@ table tr:hover{
 .delete{
 
     background:#dc3545;
+
+}
+.sidebar-toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: #fff3e8;
+    color: #ff6600;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.sidebar-toggle:hover {
+    background: #ff6600;
+    color: #fff;
+}
+@media (max-width: 768px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: 0.3s ease;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+}
+/* =========================================
+   ADMIN SIDEBAR
+========================================= */
+
+.admin-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+
+    background: #111827;
+    color: #fff;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 2000;
+
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
+
+    transition: transform 0.3s ease;
+}
+
+
+/* Sidebar Header */
+
+.sidebar-header {
+    height: 75px;
+
+    padding: 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.sidebar-title i {
+    color: #ff6b00;
+    font-size: 25px;
+}
+
+
+/* Close button */
+
+.sidebar-close {
+    display: none;
+
+    background: none;
+    border: none;
+
+    color: #fff;
+
+    font-size: 22px;
+    cursor: pointer;
+}
+
+
+/* Navigation */
+
+.sidebar-nav {
+    flex: 1;
+
+    padding: 20px 12px;
+
+    overflow-y: auto;
+}
+
+.sidebar-nav a,
+.sidebar-bottom a {
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 13px 15px;
+
+    margin-bottom: 5px;
+
+    color: #cbd5e1;
+
+    text-decoration: none;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+.sidebar-nav a i,
+.sidebar-bottom a i {
+    width: 20px;
+    text-align: center;
+}
+
+
+/* Hover */
+
+.sidebar-nav a:hover,
+.sidebar-bottom a:hover {
+
+    background: #ff6b00;
+    color: #fff;
+
+    transform: translateX(3px);
+}
+
+
+/* Bottom */
+
+.sidebar-bottom {
+
+    padding: 15px 12px;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-bottom .logout-link {
+    color: #fca5a5;
+}
+
+.sidebar-bottom .logout-link:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+
+/* =========================================
+   TOPBAR
+========================================= */
+
+.admin-topbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 250px;
+    right: 0;
+
+    height: 75px;
+
+    background: #fff;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 25px;
+
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+
+    z-index: 1500;
+}
+
+
+/* Menu button */
+
+.sidebar-toggle {
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f3f4f6;
+
+    color: #333;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-toggle:hover {
+    background: #ff6b00;
+    color: #fff;
+}
+
+
+/* Title */
+
+.topbar-title {
+    margin-left: 15px;
+}
+
+.topbar-title h2 {
+    margin: 0;
+
+    font-size: 19px;
+
+    color: #1f2937;
+}
+
+.topbar-title span {
+    display: block;
+
+    font-size: 12px;
+
+    color: #888;
+
+    margin-top: 2px;
+}
+
+
+/* Right */
+
+.topbar-right {
+
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.topbar-right i {
+    color: #ff6b00;
+    font-size: 19px;
+}
+
+
+/* Overlay */
+
+.sidebar-overlay {
+    display: none;
+}
+
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.main-content {
+
+    margin-left: 250px;
+
+    padding-top: 75px;
+
+    min-height: 100vh;
+
+    background: #f5f7fb;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .admin-sidebar {
+
+        transform: translateX(-100%);
+
+        width: 270px;
+    }
+
+    .admin-sidebar.active {
+        transform: translateX(0);
+    }
+
+
+    .sidebar-close {
+        display: block;
+    }
+
+
+    .admin-topbar {
+
+        left: 0;
+
+        height: 65px;
+
+        padding: 0 15px;
+    }
+
+
+    .sidebar-toggle {
+
+        display: flex;
+    }
+
+
+    .topbar-title h2 {
+        font-size: 16px;
+    }
+
+    .topbar-title span {
+        font-size: 11px;
+    }
+
+
+    .topbar-right span {
+        display: none;
+    }
+
+
+    .main-content {
+
+        margin-left: 0;
+
+        padding-top: 65px;
+    }
+
+
+    .sidebar-overlay {
+
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(0,0,0,0.45);
+
+        z-index: 1900;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .admin-sidebar {
+        width: 250px;
+    }
+
+    .topbar-title h2 {
+        font-size: 14px;
+    }
 
 }

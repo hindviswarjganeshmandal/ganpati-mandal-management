@@ -20,25 +20,31 @@ exports.getAllPhotos = async () => {
     return rows;
 
 };
+exports.getPhotoById = async (id) => {
 
-// Add photo
-exports.addPhoto = async (photo) => {
-
-    return db.execute(
-        "INSERT INTO gallery (title,image) VALUES (?,?)",
-        [
-            photo.title,
-            photo.image
-        ]
+    const [rows] = await db.query(
+        "SELECT * FROM gallery WHERE id = ?",
+        [id]
     );
 
+    return rows[0];
 };
 
-// Delete photo
+
+// Add photo
+exports.addPhoto = async (title, image) => {
+    return await db.execute(
+        "INSERT INTO gallery (title, image) VALUES (?, ?)",
+        [title, image]
+    );
+};
+
+
+
 exports.deletePhoto = async (id) => {
 
-    return db.execute(
-        "DELETE FROM gallery WHERE id=?",
+    await db.query(
+        "DELETE FROM gallery WHERE id = ?",
         [id]
     );
 

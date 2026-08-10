@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+    <% function formatDate(date) { if (!date) return "-" ; return new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit" , month: "short" , year: "numeric" }); } %>
+
 
 <head>
 
@@ -9,6 +12,7 @@
     <title>Expense Management</title>
 
     <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/expense.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
@@ -76,8 +80,8 @@
                                             </td>
 
                                             <td>
-                                                <%= expense.expense_date %>
-                                            </td>
+                                                            <%= formatDate(expense.expense_date) %>
+                                                        </td>
 
                                             <td>
                                                 <%= expense.category %>
@@ -159,21 +163,14 @@
                                                     </a>
 
                                                     <a class="btn reject"
-                                                        href="/admin/expense/reject/<%= expense.id %>">
+                                                        href="/admin/expenses/reject/<%= expense.id %>" Reject </a>
 
-                                                        Reject
+                                                        <% } %>
 
-                                                    </a>
-
-                                                    <% } %>
-
-                                                        <a class="btn delete"
-                                                            onclick="return confirm('Delete this expense?')"
-                                                            href="/admin/expense/delete/<%= expense.id %>">
-
-                                                            Delete
-
-                                                        </a>
+                                                            <a class="btn delete"
+                                                                onclick="return confirm('Delete this expense?')"
+                                                                href="/admin/expenses/delete/<%= expense.id %>" Delete
+                                                                </a>
 
                                             </td>
 

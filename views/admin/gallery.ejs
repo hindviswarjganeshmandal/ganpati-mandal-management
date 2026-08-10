@@ -1,64 +1,148 @@
-<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/admin-gallery.css">
+<div class="gallery-management">
 
-<%- include("partials/sidebar") %>
+    <div class="gallery-header">
+        <div>
+            <h1>
+                <i class="fa-solid fa-images"></i>
+                Gallery Management
+            </h1>
 
-<%- include("partials/topbar") %>
+            <p>Upload and manage Mandal gallery photos</p>
+        </div>
+    </div>
 
-<div class="main-content">
+    <!-- Upload Section -->
 
-    <!-- Existing page content -->
+    <div class="gallery-upload-card">
 
-</div>
-<%- include("../partials/navbar") %>
+        <div class="card-title">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
 
-<div class="container">
+            <div>
+                <h2>Upload Photo</h2>
+                <p>Add a new photo to the Mandal gallery</p>
+            </div>
+        </div>
 
-    <h1>Gallery Management</h1>
+        <form action="/admin/gallery/upload" method="POST" enctype="multipart/form-data" class="gallery-form">
 
-    <form
-        action="/admin/gallery/upload"
-        method="POST"
-        enctype="multipart/form-data">
+            <div class="form-group">
 
-        <input
-            type="text"
-            name="title"
-            placeholder="Photo Title"
-            required>
+                <label>
+                    <i class="fa-solid fa-heading"></i>
+                    Photo Title
+                </label>
 
-        <input
-            type="file"
-            name="image"
-            accept="image/*"
-            required>
-
-        <button type="submit">
-            Upload Photo
-        </button>
-
-    </form>
-
-    <hr>
-
-    <div style="display:flex;flex-wrap:wrap;gap:20px;">
-
-        <% photos.forEach(photo => { %>
-
-            <div style="width:220px;text-align:center;">
-
-                <img
-                    src="/uploads/gallery/<%= photo.image %>"
-                    style="width:220px;height:180px;object-fit:cover;border-radius:10px;">
-
-                <h4><%= photo.title %></h4>
+                <input type="text" name="title" placeholder="Enter photo title" required>
 
             </div>
 
-        <% }) %>
+            <div class="form-group">
+
+                <label>
+                    <i class="fa-solid fa-image"></i>
+                    Select Photo
+                </label>
+
+                <input type="file" name="image" accept="image/*" required>
+
+            </div>
+
+            <button type="submit" class="upload-btn">
+
+                <i class="fa-solid fa-upload"></i>
+
+                Upload Photo
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- Gallery -->
+
+    <div class="gallery-list-card">
+
+        <div class="gallery-list-header">
+
+            <div>
+                <h2>
+                    <i class="fa-solid fa-photo-film"></i>
+                    Gallery Photos
+                </h2>
+
+                <p>Uploaded Mandal photos</p>
+            </div>
+
+            <span class="photo-count">
+                <%= photos.length %> Photos
+            </span>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+            <% photos.forEach(photo=> { %>
+                <% if (messages.success) { %>
+
+                    <div class="success-message">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <%= messages.success %>
+                    </div>
+
+                    <% } %>
+
+                        <div class="gallery-item">
+
+                            <img src="/uploads/gallery/<%= photo.image %>" alt="<%= photo.title %>"
+                                class="gallery-image">
+
+                            <h4>
+                                <%= photo.title %>
+                            </h4>
+
+                            <a href="/admin/gallery/delete/<%= photo.id %>" class="delete-btn"
+                                onclick="return confirm('Are you sure you want to delete this photo?');">
+
+                                <i class="fa-solid fa-trash"></i>
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                        <% }) %>
+                            <% if (success) { %>
+
+                                <div class="success-notification" id="successNotification">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Photo Delete successfully!
+                                </div>
+
+                                <% } %>
+
+
+        </div>
 
     </div>
 
 </div>
+<script>
+    setTimeout(() => {
 
-<%- include("../partials/footer") %>
+        const notification = document.getElementById("successNotification");
 
+        if (notification) {
+            notification.style.opacity = "0";
+
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+
+    }, 3000);
+</script>

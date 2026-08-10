@@ -3,112 +3,213 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<title>Admin Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="/css/style.css">
+    <title>Admin Login | Shree Ganesh Mandal</title>
 
-<style>
+    <link rel="stylesheet" href="/css/admin-login.css">
 
-body{
-    background:#fff5e6;
-    font-family:Arial,sans-serif;
-}
-
-.login-box{
-
-    width:400px;
-
-    margin:100px auto;
-
-    background:#fff;
-
-    padding:30px;
-
-    border-radius:12px;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.1);
-
-}
-
-input{
-
-    width:100%;
-
-    padding:12px;
-
-    margin:10px 0;
-
-}
-
-button{
-
-    width:100%;
-
-    padding:12px;
-
-    background:#ff6600;
-
-    color:#fff;
-
-    border:none;
-
-    cursor:pointer;
-
-}
-
-.error{
-
-    color:red;
-
-    margin-bottom:15px;
-
-}
-
-</style>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="login-box">
+    <div class="admin-login-page">
 
-<h2>Admin Login</h2>
+        <div class="admin-login-card">
 
-<% if(error){ %>
+            <!-- Logo -->
 
-<div class="error">
+            <div class="admin-logo">
 
-<%= error %>
+                <img
+                    src="/images/logo.png"
+                    alt="Shree Ganesh Mandal Logo">
 
-</div>
+            </div>
 
-<% } %>
 
-<form action="/admin/login" method="POST">
+            <!-- Title -->
 
-<input
-type="text"
-name="username"
-placeholder="Username"
-required>
+            <div class="login-heading">
 
-<input
-type="password"
-name="password"
-placeholder="Password"
-required>
+                <div class="admin-icon">
 
-<button>
+                    <i class="fa-solid fa-shield-halved"></i>
 
-Login
+                </div>
 
-</button>
+                <h1>Admin Login</h1>
 
-</form>
+                <p>
+                    Shree Ganesh Mandal
+                </p>
 
-</div>
+                <span>
+                    Management Panel
+                </span>
+
+            </div>
+
+
+            <!-- Error -->
+
+            <% if(error){ %>
+
+                <div class="login-error">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    <span>
+                        <%= error %>
+                    </span>
+
+                </div>
+
+            <% } %>
+
+
+            <!-- Login Form -->
+
+            <form action="/admin/login" method="POST">
+
+                <!-- Username -->
+
+                <div class="input-group">
+
+                    <label for="username">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        Username
+
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter username"
+                            autocomplete="username"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="input-group">
+
+                    <label for="password">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        Password
+
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-key"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            autocomplete="current-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()">
+
+                            <i
+                                class="fa-solid fa-eye"
+                                id="eyeIcon">
+                            </i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Login Button -->
+
+                <button
+                    type="submit"
+                    class="login-button">
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    Login to Dashboard
+
+                </button>
+
+            </form>
+
+
+            <!-- Footer -->
+
+            <div class="login-footer">
+
+                <i class="fa-solid fa-lock"></i>
+
+                Secure Admin Access
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const eyeIcon =
+                document.getElementById("eyeIcon");
+
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                eyeIcon.classList.remove("fa-eye");
+
+                eyeIcon.classList.add("fa-eye-slash");
+
+            } else {
+
+                password.type = "password";
+
+                eyeIcon.classList.remove("fa-eye-slash");
+
+                eyeIcon.classList.add("fa-eye");
+
+            }
+
+        }
+
+    </script>
 
 </body>
 

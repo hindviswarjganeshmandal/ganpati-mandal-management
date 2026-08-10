@@ -10,6 +10,7 @@ const donationController = require("../controllers/donationController");
 const galleryController = require("../controllers/galleryController");
 const memberController = require("../controllers/memberController");
 const accountController = require("../controllers/accountController");
+const accountExportController = require("../controllers/accountExportController");
 // Home
 router.get("/", homeController.homePage);
 
@@ -54,5 +55,14 @@ router.get("/contact", (req, res) => {
 router.get(
     "/accounts",
     accountController.showAccounts
+);
+router.get(
+    "/accounts/export/pdf",
+    accountExportController.exportPDF
+);
+
+router.get(
+    "/accounts/export/excel",
+    accountExportController.exportExcel
 );
 module.exports = router;

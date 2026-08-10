@@ -1,217 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+<% function formatDate(date) { if (!date) return "-" ; return new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit" , month: "short" , year: "numeric" }); } %>
 
-<head>
+    <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Expenses</title>
+        <title>My Expenses</title>
 
-    <link rel="stylesheet" href="/css/member-dashboard.css">
+        <link rel="stylesheet" href="/css/member-dashboard.css">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-<div class="dashboard">
+        <div class="dashboard">
 
-    <!-- Sidebar -->
+            <!-- Sidebar -->
 
-    <aside class="sidebar">
+            <aside class="sidebar">
 
-        <div class="logo">
+                <div class="logo">
 
-            <img src="/images/logo.png">
+                    <img src="/images/logo.png">
 
-            <h2>Ganpati Mandal</h2>
+                    <h2>Ganpati Mandal</h2>
+
+                </div>
+
+                <ul>
+
+                    <li>
+                        <a href="/member/dashboard">
+                            <i class="fa-solid fa-house"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/member/add-expense">
+                            <i class="fa-solid fa-wallet"></i>
+                            Add Expense
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="/member/expenses">
+                            <i class="fa-solid fa-list"></i>
+                            My Expenses
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/member/profile">
+                            <i class="fa-solid fa-user"></i>
+                            My Profile
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/member/logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    </li>
+
+                </ul>
+
+            </aside>
+
+            <!-- Main -->
+
+            <main class="content">
+
+                <header>
+
+                    <div>
+
+                        <h1>My Expenses</h1>
+
+                        <p>Expense History</p>
+
+                    </div>
+
+                    <a href="/member/add-expense" class="btn">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Add Expense
+
+                    </a>
+
+                </header>
+
+                <section class="table-section">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Bill</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <% if(expenses.length>0){ %>
+
+                                <% expenses.forEach(expense=>{ %>
+
+                                    <tr>
+
+                                        <td>
+                                            <%= formatDate(expense.expense_date) %>
+                                        </td>
+
+                                        <td>
+                                            <%= expense.category %>
+                                        </td>
+
+                                        <td>
+                                            <%= expense.item_name %>
+                                        </td>
+
+                                        <td>
+                                            <%= expense.quantity %>
+                                        </td>
+
+                                        <td>₹ <%= expense.price %>
+                                        </td>
+
+                                        <td><strong>₹ <%= expense.total %></strong></td>
+
+                                        <td>
+
+                                            <span class="status <%= expense.status.toLowerCase() %>">
+
+                                                <%= expense.status %>
+
+                                            </span>
+
+                                        </td>
+
+                                        <td>
+
+                                            <% if(expense.bill){ %>
+
+                                                <a href="/uploads/<%= expense.bill %>" target="_blank">
+
+                                                    View
+
+                                                </a>
+
+                                                <% } else { %>
+
+                                                    -
+
+                                                    <% } %>
+
+                                        </td>
+
+                                        <td>
+
+                                            <a href="/member/expense/delete/<%= expense.id %>" class="delete-btn"
+                                                onclick="return confirm('Delete this expense?')">
+
+                                                Delete
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <% }) %>
+
+                                        <% } else { %>
+
+                                            <tr>
+
+                                                <td colspan="9" style="text-align:center;padding:40px;">
+
+                                                    <i class="fa-solid fa-folder-open"
+                                                        style="font-size:45px;color:#bbb;"></i>
+
+                                                    <br><br>
+
+                                                    No Expense Found
+
+                                                </td>
+
+                                            </tr>
+
+                                            <% } %>
+
+                        </tbody>
+
+                    </table>
+
+                </section>
+
+            </main>
 
         </div>
 
-        <ul>
-
-            <li>
-                <a href="/member/dashboard">
-                    <i class="fa-solid fa-house"></i>
-                    Dashboard
-                </a>
-            </li>
-
-            <li>
-                <a href="/member/add-expense">
-                    <i class="fa-solid fa-wallet"></i>
-                    Add Expense
-                </a>
-            </li>
-
-            <li class="active">
-                <a href="/member/expenses">
-                    <i class="fa-solid fa-list"></i>
-                    My Expenses
-                </a>
-            </li>
-
-            <li>
-                <a href="/member/profile">
-                    <i class="fa-solid fa-user"></i>
-                    My Profile
-                </a>
-            </li>
-
-            <li>
-                <a href="/member/logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Logout
-                </a>
-            </li>
-
-        </ul>
-
-    </aside>
-
-    <!-- Main -->
-
-    <main class="content">
-
-        <header>
-
-            <div>
-
-                <h1>My Expenses</h1>
-
-                <p>Expense History</p>
-
-            </div>
-
-            <a href="/member/add-expense" class="btn">
-
-                <i class="fa-solid fa-plus"></i>
-
-                Add Expense
-
-            </a>
-
-        </header>
-
-        <section class="table-section">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Item</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Bill</th>
-                        <th>Action</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                <% if(expenses.length>0){ %>
-
-                    <% expenses.forEach(expense=>{ %>
-
-                    <tr>
-
-                        <td><%= expense.expense_date %></td>
-
-                        <td><%= expense.category %></td>
-
-                        <td><%= expense.item_name %></td>
-
-                        <td><%= expense.quantity %></td>
-
-                        <td>₹ <%= expense.price %></td>
-
-                        <td><strong>₹ <%= expense.total %></strong></td>
-
-                        <td>
-
-                            <span class="status <%= expense.status.toLowerCase() %>">
-
-                                <%= expense.status %>
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                        <% if(expense.bill){ %>
-
-                            <a href="/uploads/<%= expense.bill %>" target="_blank">
-
-                                View
-
-                            </a>
-
-                        <% } else { %>
-
-                            -
-
-                        <% } %>
-
-                        </td>
-
-                        <td>
-
-                            <a
-                                href="/member/expense/delete/<%= expense.id %>"
-                                class="delete-btn"
-                                onclick="return confirm('Delete this expense?')">
-
-                                Delete
-
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    <% }) %>
-
-                <% } else { %>
-
-                    <tr>
-
-                        <td colspan="9" style="text-align:center;padding:40px;">
-
-                            <i class="fa-solid fa-folder-open"
-                               style="font-size:45px;color:#bbb;"></i>
-
-                            <br><br>
-
-                            No Expense Found
-
-                        </td>
-
-                    </tr>
-
-                <% } %>
-
-                </tbody>
-
-            </table>
-
-        </section>
-
-    </main>
-
-</div>
-
-</body>
+    </body>
 
 </html>

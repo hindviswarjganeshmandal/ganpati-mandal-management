@@ -1,57 +1,118 @@
-<!DOCTYPE html>
-<html>
+<%- include("../partials/navbar") %>
+    <link rel="stylesheet" href="/css/member-login.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="/js/navbar.js"></script>
+    <div class="member-login-page">
 
-<head>
+        <div class="member-login-card">
 
-<title>Member Login</title>
+            <div class="login-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
 
-<link rel="stylesheet" href="/css/member-login.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <h1>Member Login</h1>
 
-<title>Member Login</title>
+            <p class="login-subtitle">
+                Shree Ganesh Mandal
+            </p>
 
-<link rel="stylesheet" href="/css/member-login.css">
+            <form action="/member/login" method="POST">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+                <div class="input-group">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                    <label>
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        Mobile Number
+                    </label>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+                    <div class="input-box">
 
-</head>
+                        <i class="fa-solid fa-phone"></i>
 
-<body>
+                        <input type="tel" name="phone" placeholder="Enter mobile number" required>
 
-<div class="login-box">
+                    </div>
 
-<h2>Member Login</h2>
+                </div>
 
-<form action="/member/login" method="POST">
 
-<input
-    type="text"
-    name="phone"
-    placeholder="Enter Mobile Number"
-    required>
+                <div class="input-group">
 
-<input
-type="password"
-name="password"
-placeholder="Password"
-required>
+                    <label>
+                        <i class="fa-solid fa-lock"></i>
+                        Password
+                    </label>
 
-<button>
+                    <div class="input-box">
 
-Login
+                        <i class="fa-solid fa-key"></i>
 
-</button>
+                        <input type="password" name="password" id="password" placeholder="Enter password" required>
 
-</form>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
 
-</div>
+                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
 
-</body>
+                        </button>
 
-</html>
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="login-btn">
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    Login
+
+                </button>
+
+            </form>
+
+
+            <div class="login-footer">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                Secure Member Access
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+
+            } else {
+
+                password.type = "password";
+
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+
+            }
+
+        }
+
+    </script>

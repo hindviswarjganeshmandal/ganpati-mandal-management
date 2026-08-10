@@ -1,98 +1,123 @@
-<div class="sidebar">
+<aside class="admin-sidebar" id="adminSidebar">
 
-    <div class="logo">
+    <div class="sidebar-header">
+        <div class="sidebar-title"> <span>Admin Panel</span>
+        </div>
 
-        <h2>🙏 Ganpati Mandal</h2>
+        <button class="sidebar-close" id="sidebarClose">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <a href="/admin/dashboard">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/admin/members">
+            <i class="fa-solid fa-users"></i>
+            <span>Members</span>
+        </a>
+
+        <a href="/admin/donations">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <span>Donations</span>
+        </a>
+
+        <a href="/admin/gallery">
+            <i class="fa-solid fa-images"></i>
+            <span>Gallery</span>
+        </a>
+
+        <a href="/admin/news">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>News</span>
+        </a>
+
+        <a href="/admin/events">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Events</span>
+        </a>
+
+        <a href="/admin/expenses">
+            <i class="fa-solid fa-receipt"></i>
+            <span>Expenses</span>
+        </a>
+
+        <a href="/admin/income">
+            <i class="fa-solid fa-money-bill-trend-up"></i>
+            <span>Income</span>
+        </a>
+
+        <a href="/admin/finance">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Finance</span>
+        </a>
+
+        <a href="/admin/management">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Management</span>
+        </a>
+
+        <a href="/admin/payment">
+            <i class="fa-solid fa-qrcode"></i>
+            <span>Payment</span>
+        </a>
+
+        <a href="/admin/settings">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <a href="/admin/profile">
+            <i class="fa-solid fa-user"></i>
+            <span>Profile</span>
+        </a>
+
+        <a href="/admin/logout" class="logout-link">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
 
     </div>
 
-    <ul>
+</aside>
 
-        <li>
-            <a href="/admin/dashboard">
-                📊 Dashboard
-            </a>
-        </li>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-        <li>
-            <a href="/admin/gallery">
-                🖼 Gallery
-            </a>
-        </li>
+        const sidebar = document.getElementById("adminSidebar");
+        const toggle = document.getElementById("sidebarToggle");
+        const close = document.getElementById("sidebarClose");
+        const overlay = document.getElementById("sidebarOverlay");
 
-        <li>
-            <a href="/admin/donations">
-                💰 Donations
-            </a>
-        </li>
+        if (toggle) {
+            toggle.addEventListener("click", function () {
+                sidebar.classList.add("active");
+                overlay.classList.add("active");
+            });
+        }
 
-        <li>
-            <a href="/admin/news">
-                📰 News
-            </a>
-        </li>
+        if (close) {
+            close.addEventListener("click", function () {
+                sidebar.classList.remove("active");
+                overlay.classList.remove("active");
+            });
+        }
 
-        <li>
-            <a href="/admin/members">
-                👥 Members
-            </a>
-        </li>
-        <li>
-            <a href="/admin/events">
-                📅 Events
-            </a>
-        </li>
-        <li>
-            <a href="/admin/expenses">
-                <i class="fa-solid fa-wallet"></i>
-                Expense Management
-            </a>
-        </li>
-        <li>
-            <a href="/admin/payment">
-                💳 Payment Details
-            </a>
-        </li>
-        <li>
-            <a href="/admin/settings">
-                ⚙️ Website Settings
-            </a>
-        </li>
-        <li>
-            <a href="/admin/profile">
-                👤 Admin Profile
-            </a>
-        </li>
-        <li>
-            <a href="/admin/reports">
-                📊 Reports
-            </a>
-        </li>
-        <li>
-            <a href="/admin/management">
-                <i class="fa-solid fa-wallet"></i>
-                <span>Management</span>
-            </a>
-        </li>
-        <li>
-            <a href="/admin/income">
-                <i class="fa-solid fa-money-bill-wave"></i>
-                <span>Income</span>
-            </a>
-        </li>
-        <li>
-            <a href="/admin/finance">
-                <i class="fa-solid fa-chart-line"></i>
-                Finance Dashboard
-            </a>
-        </li>
-        <li>
-            <a href="/admin/logout">
-                🚪 Logout
-            </a>
-        </li>
+        if (overlay) {
+            overlay.addEventListener("click", function () {
+                sidebar.classList.remove("active");
+                overlay.classList.remove("active");
+            });
+        }
 
-    </ul>
-
-
-</div>
+    });
+</script>

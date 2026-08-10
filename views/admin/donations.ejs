@@ -1,87 +1,92 @@
-<%- include("../partials/header") %>
-    <%- include("../partials/navbar") %>
+<%- include("partials/sidebar") %>
+<%- include("partials/topbar") %>
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/donations.css">
 
-        <div class="container">
+<div class="container">
 
-            <h1>Donation Management</h1>
+    <h1>Donation Management</h1>
 
-            <table class="table">
+    <table class="table">
 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Amount</th>
-                        <th>Screenshot</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Screenshot</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
 
-                <tbody>
+        <tbody>
 
-                    <% donations.forEach(donation=> { %>
+            <% donations.forEach(donation=> { %>
 
-                        <tr>
+                <tr>
 
-                            <td>
-                                <%= donation.id %>
-                            </td>
+                    <td>
+                        <%= donation.id %>
+                    </td>
 
-                            <td>
-                                <%= donation.fullname %>
-                            </td>
+                    <td>
+                        <%= donation.fullname %>
+                    </td>
 
-                            <td>
-                                <%= donation.email %>
-                            </td>
+                    <td>
+                        <%= donation.email %>
+                    </td>
 
-                            <td>₹ <%= donation.amount %>
-                            </td>
+                    <td class="amount">
+                        ₹ <%= donation.amount %>
+                    </td>
 
-                            <td>
-                                <img src="/uploads/donations/<%= donation.screenshot %>" width="100" height="100"
-                                    style="object-fit:cover;border-radius:8px;">
-                            </td>
+                    <td>
+                        <img src="/uploads/donations/<%= donation.screenshot %>" class="donation-image"
+                            alt="Payment Screenshot">
+                    </td>
 
-                            <td>
-                                <%= donation.status %>
-                            </td>
+                    <td>
+                        <span class="status <%= donation.status.toLowerCase() %>">
+                            <%= donation.status %>
+                        </span>
+                    </td>
 
-                            <% if(donation.status==="Pending" ){ %>
+                    <!-- IMPORTANT: Action buttons must be inside TD -->
+                    <td class="actions">
 
-                                <a class="btn btn-success" href="/admin/donations/verify/<%= donation.id %>">
-                                    ✅ Verify
+                        <% if (donation.status==="Pending" ) { %>
+
+                            <a class="btn btn-success" href="/admin/donations/verify/<%= donation.id %>">
+                                ✅ Verify
+                            </a>
+
+                            <a class="btn btn-danger" href="/admin/donations/reject/<%= donation.id %>">
+                                ❌ Reject
+                            </a>
+
+                            <% } else { %>
+
+                                <span class="btn btn-success">
+                                    <%= donation.status %>
+                                </span>
+
+                                <a class="btn btn-primary" href="/admin/donations/receipt/<%= donation.id %>">
+                                    📄 Download Receipt
                                 </a>
 
-                                <a class="btn btn-danger" href="/admin/donations/reject/<%= donation.id %>">
-                                    ❌ Reject
-                                </a>
+                                <% } %>
 
-                                <% } else { %>
+                    </td>
 
-                                    <span class="btn btn-success">
-                                        <%= donation.status %>
-                                    </span>
+                </tr>
 
-                                    <br><br>
+                <% }) %>
 
-                                    <a class="btn btn-primary" href="/admin/donations/receipt/<%= donation.id %>">
-                                        📄 Download Receipt
-                                    </a>
+        </tbody>
 
-                                    <% } %>
+    </table>
 
-                        </tr>
-
-                        <% }) %>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <%- include("../partials/footer") %>
+</div>

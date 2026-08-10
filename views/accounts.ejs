@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
 <head>
 
     <meta charset="UTF-8">
@@ -10,227 +12,229 @@
     <title>Mandal Accounts</title>
 
     <link rel="stylesheet" href="/css/accounts.css">
-
+   
+  
+  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
 </head>
 
-<body>
-    <div class="filter-box">
 
-        <form action="/accounts" method="GET">
+    <body>
 
-            <label><strong>Financial Year :</strong></label>
+        <div class="filter-box">
 
-            <select name="year" onchange="this.form.submit()">
+            <form action="/accounts" method="GET">
 
-                <% for(let y=2024; y<=new Date().getFullYear(); y++){ %>
+                <label><strong>Financial Year :</strong></label>
 
-                    <option value="<%= y %>" <%=Number(year)===y ? "selected" : "" %>>
+                <select name="year" onchange="this.form.submit()">
 
-                        <%= y %>
+                    <% for(let y=2024; y<=new Date().getFullYear(); y++){ %>
 
-                    </option>
+                        <option value="<%= y %>" <%=Number(year)===y ? "selected" : "" %>>
 
-                    <% } %>
+                            <%= y %>
 
-            </select>
+                        </option>
 
-        </form>
+                        <% } %>
 
-    </div>
+                </select>
 
-    <div class="container">
-
-        <h1>💰 Mandal Accounts</h1>
-
-        <!-- Summary Cards -->
-
-        <div class="cards">
-
-            <div class="card income">
-
-                <i class="fa-solid fa-arrow-trend-up"></i>
-
-                <h3>Total Income</h3>
-
-                <h2>₹ <%= totalIncome %>
-                </h2>
-
-            </div>
-
-            <div class="card expense">
-
-                <i class="fa-solid fa-arrow-trend-down"></i>
-
-                <h3>Total Expenses</h3>
-
-                <h2>₹ <%= totalExpense %>
-                </h2>
-
-            </div>
-
-            <div class="card balance">
-
-                <i class="fa-solid fa-wallet"></i>
-
-                <h3>Available Balance</h3>
-
-                <h2>₹ <%= balance %>
-                </h2>
-
-            </div>
+            </form>
 
         </div>
-        <div class="search-box">
-            <input type="text" id="search" placeholder="Search Income / Expense...">
-        </div>
 
-        <!-- Income -->
+        <div class="container">
 
-        <div class="table-box">
+            <h1>💰 Mandal Accounts</h1>
 
-            <h2>Income List</h2>
+            <!-- Summary Cards -->
 
-            <table>
+            <div class="cards">
 
-                <thead>
+                <div class="card income">
 
-                    <tr>
+                    <i class="fa-solid fa-arrow-trend-up"></i>
 
-                        <th>Date</th>
-                        <th>Source</th>
-                        <th>Received From</th>
-                        <th>Amount</th>
+                    <h3>Total Income</h3>
 
-                    </tr>
+                    <h2>₹ <%= totalIncome %>
+                    </h2>
 
-                </thead>
+                </div>
 
-                <tbody>
+                <div class="card expense">
 
-                    <% incomeList.forEach(income=>{ %>
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+
+                    <h3>Total Expenses</h3>
+
+                    <h2>₹ <%= totalExpense %>
+                    </h2>
+
+                </div>
+
+                <div class="card balance">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    <h3>Available Balance</h3>
+
+                    <h2>₹ <%= balance %>
+                    </h2>
+
+                </div>
+
+            </div>
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search Income / Expense...">
+            </div>
+
+            <!-- Income -->
+
+            <div class="table-box">
+
+                <h2>Income List</h2>
+
+                <table>
+
+                    <thead>
 
                         <tr>
 
-                            <td>
-                                <%= income.income_date %>
-                            </td>
-
-                            <td>
-                                <%= income.source %>
-                            </td>
-
-                            <td>
-                                <%= income.received_from %>
-                            </td>
-
-                            <td>₹ <%= income.amount %>
-                            </td>
+                            <th>Date</th>
+                            <th>Source</th>
+                            <th>Received From</th>
+                            <th>Amount</th>
 
                         </tr>
 
-                        <% }) %>
+                    </thead>
 
-                </tbody>
+                    <tbody>
 
-            </table>
+                        <% incomeList.forEach(income=>{ %>
 
-        </div>
+                            <tr>
 
-        <!-- Expenses -->
+                                <td>
+                                    <%= new Date(income.income_date).toLocaleDateString("en-GB", { day: "2-digit" ,
+                                        month: "short" , year: "numeric" }) %>
+                                </td>
 
-        <div class="table-box">
+                                <td>
+                                    <%= income.source %>
+                                </td>
 
-            <h2>Approved Expense List</h2>
+                                <td>
+                                    <%= income.received_from %>
+                                </td>
 
-            <table>
+                                <td>₹ <%= income.amount %>
+                                </td>
 
-                <thead>
+                            </tr>
 
-                    <tr>
+                            <% }) %>
 
-                        <th>Date</th>
-                        <th>Member</th>
-                        <th>Category</th>
-                        <th>Item</th>
-                        <th>Amount</th>
+                    </tbody>
 
-                    </tr>
+                </table>
 
-                </thead>
+            </div>
 
-                <tbody>
+            <!-- Expenses -->
 
-                    <% expenseList.forEach(expense=>{ %>
+            <div class="table-box">
+
+                <h2>Approved Expense List</h2>
+
+                <table>
+
+                    <thead>
 
                         <tr>
 
-                            <td>
-                                <%= expense.expense_date %>
-                            </td>
-
-                            <td>
-                                <%= expense.fullname %>
-                            </td>
-
-                            <td>
-                                <%= expense.category %>
-                            </td>
-
-                            <td>
-                                <%= expense.item_name %>
-                            </td>
-
-                            <td>₹ <%= expense.total %>
-                            </td>
+                            <th>Date</th>
+                            <th>Member</th>
+                            <th>Category</th>
+                            <th>Item</th>
+                            <th>Amount</th>
 
                         </tr>
 
-                        <% }) %>
+                    </thead>
 
-                </tbody>
+                    <tbody>
 
-            </table>
+                        <% expenseList.forEach(expense=>{ %>
+
+                            <tr>
+
+                                <td>
+                                    <%= new Date(expense.expense_date).toLocaleDateString("en-GB", { day: "2-digit" ,
+                                        month: "short" , year: "numeric" }) %>
+                                </td>
+
+                                <td>
+                                    <%= expense.fullname %>
+                                </td>
+
+                                <td>
+                                    <%= expense.category %>
+                                </td>
+
+                                <td>
+                                    <%= expense.item_name %>
+                                </td>
+
+                                <td>₹ <%= expense.total %>
+                                </td>
+
+                            </tr>
+
+                            <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
+        <a href="/accounts/export/pdf?year=<%= year %>" class="btn">
 
-    </div>
-    <a
-    href="/accounts/export/pdf?year=<%= year %>"
-    class="btn">
+            Download PDF
 
-    Download PDF
+        </a>
+        <a href="/accounts/export/excel?year=<%= year %>" class="btn">
 
-</a>
-<a
-    href="/accounts/export/excel?year=<%= year %>"
-    class="btn">
+            Download Excel
 
-    Download Excel
+        </a>
+        <script>
+            const search = document.getElementById("search");
 
-</a>
-    <script>
-const search = document.getElementById("search");
+            search.addEventListener("keyup", function () {
 
-search.addEventListener("keyup", function () {
+                let filter = this.value.toLowerCase();
 
-    let filter = this.value.toLowerCase();
+                let rows = document.querySelectorAll("tbody tr");
 
-    let rows = document.querySelectorAll("tbody tr");
+                rows.forEach(row => {
 
-    rows.forEach(row => {
+                    row.style.display =
+                        row.innerText.toLowerCase().includes(filter)
+                            ? ""
+                            : "none";
 
-        row.style.display =
-            row.innerText.toLowerCase().includes(filter)
-            ? ""
-            : "none";
+                });
 
-    });
+            });
+        </script>
 
-});
-</script>
-
-</body>
+    </body>
 
 </html>
