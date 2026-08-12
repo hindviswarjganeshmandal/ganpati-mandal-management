@@ -1,11 +1,20 @@
 const mysql = require("mysql2");
 const fs = require("fs");
-const path = require("path");
 require("dotenv").config();
 
-const ca = fs.readFileSync(
-    path.join(__dirname, "../certs/ca.pem")
-);
+let sslConfig;
+
+if (process.env.RENDER) {
+    // Render secret file
+    sslConfig = {
+        ca: fs.readFileSync("/etc/secrets/ca.pem")
+    };
+} else {
+    // Local computer
+    sslConfig = {
+        ca: fs.readFileSync("./certs/ca.pem")
+    };
+}
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -14,27 +23,25 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
 
-    ssl: {
-        ca: ca,
-        rejectUnauthorized: true
-    },
+    ssl: sslConfig,
 
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
 
-const promisePool = pool.promise();
+const db = pool.promise();
 
-promisePool.getConnection()
+db.getConnection()
     .then(connection => {
-        console.log("✅ Aiven MySQL Connected Successfully");
+        console.log("✅ Database Connected Successfully");
+
         connection.release();
     })
-    .catch(err => {
-        console.log("❌ Database Connection Failed");
-        console.log("Code:", err.code);
-        console.log("Message:", err.message);
+    .catch(error => {
+        console.error("❌ Database Connection Failed");
+        console.error("Code:", error.code);
+        console.error("Message:", error.message);
     });
 
-module.exports = promisePool;
+module.exports = db;
