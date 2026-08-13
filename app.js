@@ -39,9 +39,6 @@ const indexRoutes = require("./routes/index");
 const adminRoutes = require("./routes/admin");
 const memberRoutes = require("./routes/member");
 const expenseRoutes = require("./routes/expense");
-app.get("/health", (req, res) => {
-    res.status(200).send("OK");
-});
 
 // ================================
 // EMAIL
@@ -169,6 +166,9 @@ app.get("/test-email", async (req, res) => {
 
     }
 
+});
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
 });
 
 // ================================
