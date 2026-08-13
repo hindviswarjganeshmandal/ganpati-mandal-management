@@ -13,14 +13,16 @@ const flash = require("connect-flash");
 // ================================
 
 dotenv.config();
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ================================
 // CREATE EXPRESS APP
 // ================================
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // ================================
 // DATABASE
