@@ -1,4 +1,5 @@
 const eventModel = require("../models/eventModel");
+const cloudinary = require("../config/cloudinary");
 
 // Show all events
 exports.showEvents = async (req, res) => {
@@ -22,8 +23,15 @@ exports.showEvents = async (req, res) => {
 exports.addEvent = async (req, res) => {
     try {
 
-        await eventModel.addEvent(req.body);
+        await eventModel.addEvent(
+            req.body.title,
+            req.body.description,
+            req.body.event_date,
+            req.file.path,
+            req.file.filename
+        );
 
+        req.flash("success", "Event added successfully");
         res.redirect("/admin/events");
 
     } catch (err) {
@@ -32,24 +40,27 @@ exports.addEvent = async (req, res) => {
         res.send(err.message);
 
     }
-    if (req.file) {
-
-    req.body.image = req.file.filename;
-
-}
 };
 exports.deleteEvent = async (req, res) => {
 
     try {
 
-        await eventModel.deleteEvent(req.params.id);
+        const event = await eventModel.getEventById(req.params.id);
 
+        if (event) {
+
+            await cloudinary.uploader.destroy(event.public_id);
+
+            await eventModel.deleteEvent(req.params.id);
+
+        }
+
+        req.flash("success", "Event deleted successfully");
         res.redirect("/admin/events");
 
     } catch (err) {
 
         console.log(err);
-
         res.send(err.message);
 
     }

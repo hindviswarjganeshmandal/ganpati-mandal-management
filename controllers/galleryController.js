@@ -1,4 +1,5 @@
 const galleryModel = require("../models/galleryModel");
+const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
 const path = require("path");
 
@@ -51,30 +52,21 @@ exports.showAdminGallery = async (req, res) => {
 
 
 exports.uploadPhoto = async (req, res) => {
-
     try {
 
-        const { title } = req.body;
+        await galleryModel.addPhoto(
+            req.body.title,
+            req.file.path,          // Cloudinary URL
+            req.file.filename       // Public ID
+        );
 
-        if (!req.file) {
-            return res.send("Please select an image");
-        }
-
-        const image = req.file.filename;
-
-        await galleryModel.addPhoto(title, image);
-
-        req.session.success = "Photo uploaded successfully";
-
+        req.flash("success", "Photo uploaded successfully");
         res.redirect("/admin/gallery");
 
     } catch (err) {
-
         console.log(err);
-        res.status(500).send(err.message);
-
+        res.send(err.message);
     }
-
 };
 
 // ===========================
@@ -86,38 +78,24 @@ exports.deletePhoto = async (req, res) => {
 
     try {
 
-        const id = req.params.id;
+        const photo = await galleryModel.getPhotoById(req.params.id);
 
-        // Get photo information from database
-        const photo = await galleryModel.getPhotoById(id);
+        if (photo) {
 
-        if (!photo) {
-            return res.redirect("/admin/gallery");
+            await cloudinary.uploader.destroy(photo.public_id);
+
+            await galleryModel.deletePhoto(req.params.id);
+
         }
 
-        // Actual image location
-        const imagePath = path.join(
-            __dirname,
-            "../public/uploads/gallery",
-            photo.image
-        );
-
-        // Delete actual image file
-        if (fs.existsSync(imagePath)) {
-            fs.unlinkSync(imagePath);
-        }
-
-        // Delete database record
-        await galleryModel.deletePhoto(id);
-        req.flash("success", "Photo deleted successfully!");
-        // Back to gallery
+        req.flash("success", "Photo deleted successfully");
         res.redirect("/admin/gallery");
 
     } catch (err) {
 
-        console.log("Delete Gallery Error:", err);
-
-        res.status(500).send(err.message);
+        console.log(err);
+        res.send(err.message);
 
     }
+
 };

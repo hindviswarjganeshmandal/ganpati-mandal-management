@@ -1,46 +1,32 @@
 const db = require("../config/db");
 
+exports.addEvent = async (title, description, date, image, publicId) => {
+    await db.execute(
+        `INSERT INTO events
+        (title, description, event_date, image, public_id)
+        VALUES (?,?,?,?,?)`,
+        [title, description, date, image, publicId]
+    );
+};
+
 exports.getAllEvents = async () => {
     const [rows] = await db.execute(
-        "SELECT * FROM events ORDER BY event_date ASC"
+        "SELECT * FROM events ORDER BY event_date DESC"
     );
     return rows;
 };
 
-exports.addEvent = async (event) => {
-    return db.execute(
-        `INSERT INTO events
-(title,event_date,event_time,location,description,image)
-VALUES (?,?,?,?,?,?)`,
-        [
-            event.title,
-            event.event_date,
-            event.event_time,
-            event.location,
-            event.description,
-             event.image
-        ]
-    );
-};
 exports.deleteEvent = async (id) => {
-
-    return db.execute(
-        "DELETE FROM events WHERE id=?",
-        [id]
-    );
-
+    await db.execute("DELETE FROM events WHERE id=?", [id]);
 };
-// Get single event
-exports.getEventById = async (id) => {
 
+exports.getEventById = async (id) => {
     const [rows] = await db.execute(
         "SELECT * FROM events WHERE id=?",
         [id]
     );
-
     return rows[0];
 };
-
 // Update event
 exports.updateEvent = async (id, event) => {
 
