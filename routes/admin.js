@@ -237,15 +237,15 @@ router.get("/donations/verify/:id", auth, async (req, res) => {
 
 // ================= Reject Donation =================
 
+// Reject Donation
 router.get("/donations/reject/:id", auth, async (req, res) => {
-
     await donationModel.updateDonationStatus(
         req.params.id,
         "Rejected"
     );
 
+    req.flash("success", "Donation rejected successfully");
     res.redirect("/admin/donations");
-
 });
 // ================= Gallery =================
 
