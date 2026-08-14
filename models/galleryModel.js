@@ -1,12 +1,16 @@
 const db = require("../config/db");
 
-exports.addPhoto = async (title, imageUrl, publicId) => {
-    await db.execute(
-        `INSERT INTO gallery(title,image,public_id)
+// ================= Add Photo =================
+
+exports.addPhoto = async (title, image, public_id) => {
+    return db.execute(
+        `INSERT INTO gallery (title, image, public_id)
          VALUES (?,?,?)`,
-        [title, imageUrl, publicId]
+        [title, image, public_id]
     );
 };
+
+// ================= Get All Photos =================
 
 exports.getAllPhotos = async () => {
     const [rows] = await db.execute(
@@ -14,6 +18,8 @@ exports.getAllPhotos = async () => {
     );
     return rows;
 };
+
+// ================= Get Photo By ID =================
 
 exports.getPhotoById = async (id) => {
     const [rows] = await db.execute(
@@ -23,8 +29,10 @@ exports.getPhotoById = async (id) => {
     return rows[0];
 };
 
+// ================= Delete Photo =================
+
 exports.deletePhoto = async (id) => {
-    await db.execute(
+    return db.execute(
         "DELETE FROM gallery WHERE id=?",
         [id]
     );
