@@ -31,7 +31,18 @@ router.get("/dashboard", auth, async (req, res) => {
     try {
 
         const [[member]] = await db.execute(
-            "SELECT COUNT(*) total FROM members"
+            `INSERT INTO members
+(fullname,email,phone,address,photo,public_id,password)
+VALUES (?,?,?,?,?,?,?)`,
+            [
+                member.fullname,
+                member.email,
+                member.phone,
+                member.address,
+                member.photo,
+                member.public_id,
+                hashedPassword
+            ]
         );
 
         const [[join]] = await db.execute(
@@ -152,12 +163,12 @@ router.get("/approve/:id", auth, async (req, res) => {
 (fullname,email,phone,address,photo,password)
 VALUES (?,?,?,?,?,?)`,
             [
-             member.fullname,
-    member.email,
-    member.phone,
-    member.address,
-    member.photo,
-    hashedPassword
+                member.fullname,
+                member.email,
+                member.phone,
+                member.address,
+                member.photo,
+                hashedPassword
             ]
         );
 

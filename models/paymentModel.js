@@ -1,13 +1,18 @@
 const db = require("../config/db");
 
 // Get payment details
-exports.getPaymentDetails = async () => {
-
-    const [rows] = await db.execute(
-        "SELECT * FROM payment_details LIMIT 1"
-    );
-
+exports.getPayment = async () => {
+    const [rows] = await db.execute("SELECT * FROM payment LIMIT 1");
     return rows[0];
+};
+
+exports.updatePayment = async (upi_id, qr_code, public_id) => {
+    return db.execute(
+        `UPDATE payment
+         SET upi_id=?, qr_code=?, public_id=?
+         WHERE id=1`,
+        [upi_id, qr_code, public_id]
+    );
 };
 
 // Update payment details

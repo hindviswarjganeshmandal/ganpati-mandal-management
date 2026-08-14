@@ -1,38 +1,31 @@
 const paymentModel = require("../models/paymentModel");
+const cloudinary = require("../config/cloudinary");
 
-// Show Payment Details
 exports.showPayment = async (req, res) => {
 
-    try {
+    const payment = await paymentModel.getPayment();
 
-        const payment = await paymentModel.getPaymentDetails();
-
-        res.render("admin/payment", {
-            payment
-        });
-
-    } catch (err) {
-
-        console.log(err);
-        res.send(err.message);
-
-    }
+    res.render("admin/payment", { payment });
 
 };
 
-// Update Payment
 exports.updatePayment = async (req, res) => {
 
     try {
 
-        if (req.file) {
-            req.body.qr_code = req.file.filename;
-        } else {
-            const payment = await paymentModel.getPaymentDetails();
-            req.body.qr_code = payment.qr_code;
+        const oldPayment = await paymentModel.getPayment();
+
+        if (oldPayment && oldPayment.public_id && req.file) {
+            await cloudinary.uploader.destroy(oldPayment.public_id);
         }
 
-        await paymentModel.updatePaymentDetails(req.body);
+        await paymentModel.updatePayment(
+            req.body.upi_id,
+            req.file.path,
+            req.file.filename
+        );
+
+        req.flash("success", "Payment QR updated successfully");
 
         res.redirect("/admin/payment");
 

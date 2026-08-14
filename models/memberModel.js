@@ -99,7 +99,6 @@ exports.updateProfile = async (id, member) => {
     );
 
 };
-
 // ================= Add Member =================
 
 exports.addMember = async (member) => {
@@ -112,16 +111,18 @@ exports.addMember = async (member) => {
             email,
             phone,
             address,
-            photo
+            photo,
+            public_id
         )
-        VALUES (?,?,?,?,?)
+        VALUES (?,?,?,?,?,?)
         `,
         [
             member.fullname,
             member.email,
             member.phone,
             member.address,
-            member.photo
+            member.photo,
+            member.public_id
         ]
     );
 
@@ -139,7 +140,8 @@ exports.updateMember = async (id, member) => {
             email=?,
             phone=?,
             address=?,
-            photo=?
+            photo=?,
+            public_id=?
         WHERE id=?
         `,
         [
@@ -148,12 +150,12 @@ exports.updateMember = async (id, member) => {
             member.phone,
             member.address,
             member.photo,
+            member.public_id,
             id
         ]
     );
 
 };
-
 // ================= Delete Member =================
 
 exports.deleteMember = async (id) => {

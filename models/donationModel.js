@@ -1,36 +1,41 @@
 const db = require("../config/db");
 
-exports.createDonation = async (data) => {
+// ================= Create Donation =================
 
+exports.createDonation = async (data) => {
     return db.execute(
         `INSERT INTO donations
-        (fullname,email,amount,screenshot)
-        VALUES (?,?,?,?)`,
+        (fullname,email,amount,screenshot,public_id,status)
+        VALUES (?,?,?,?,?,'Pending')`,
         [
             data.fullname,
             data.email,
             data.amount,
-            data.screenshot
+            data.screenshot,   // Cloudinary URL
+            data.public_id     // Cloudinary Public ID
         ]
     );
-
 };
 
-exports.getAllDonations = async () => {
+// ================= Get All Donations =================
 
+exports.getAllDonations = async () => {
     const [rows] = await db.execute(
         "SELECT * FROM donations ORDER BY id DESC"
     );
-
     return rows;
-
 };
+
+// ================= Update Status =================
+
 exports.updateDonationStatus = async (id, status) => {
     return db.execute(
         "UPDATE donations SET status=? WHERE id=?",
         [status, id]
     );
 };
+
+// ================= Dashboard Stats =================
 
 exports.getDonationStats = async () => {
     const [rows] = await db.execute(`
@@ -44,14 +49,23 @@ exports.getDonationStats = async () => {
 
     return rows[0];
 };
-// Get Donation By ID
-exports.getDonationById = async (id) => {
 
+// ================= Get Donation By ID =================
+
+exports.getDonationById = async (id) => {
     const [rows] = await db.execute(
         "SELECT * FROM donations WHERE id=?",
         [id]
     );
 
     return rows[0];
+};
 
+// ================= Delete Donation =================
+
+exports.deleteDonation = async (id) => {
+    return db.execute(
+        "DELETE FROM donations WHERE id=?",
+        [id]
+    );
 };
