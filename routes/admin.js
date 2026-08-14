@@ -27,112 +27,85 @@ const bcrypt = require("bcrypt");
 // ================= Dashboard =================
 
 router.get("/dashboard", auth, async (req, res) => {
-
     try {
 
         const [[member]] = await db.execute(
-            `INSERT INTO members
-(fullname,email,phone,address,photo,public_id,password)
-VALUES (?,?,?,?,?,?,?)`,
-            [
-                member.fullname,
-                member.email,
-                member.phone,
-                member.address,
-                member.photo,
-                member.public_id,
-                hashedPassword
-            ]
+            "SELECT COUNT(*) AS total FROM members"
         );
 
         const [[join]] = await db.execute(
-            "SELECT COUNT(*) total FROM join_requests WHERE status='Pending'"
+            "SELECT COUNT(*) AS total FROM join_requests WHERE status='Pending'"
         );
 
         const [[event]] = await db.execute(
-            "SELECT COUNT(*) total FROM events"
+            "SELECT COUNT(*) AS total FROM events"
         );
 
         const [[news]] = await db.execute(
-            "SELECT COUNT(*) total FROM news"
+            "SELECT COUNT(*) AS total FROM news"
         );
 
         const [[donation]] = await db.execute(
-            "SELECT COUNT(*) total FROM donations"
+            "SELECT COUNT(*) AS total FROM donations"
         );
 
         const [[pendingDonation]] = await db.execute(
-            "SELECT COUNT(*) total FROM donations WHERE status='Pending'"
+            "SELECT COUNT(*) AS total FROM donations WHERE status='Pending'"
         );
 
-        // Latest Join Requests
-        const [recentJoins] = await db.execute(
-            `SELECT id, fullname, email, status
-             FROM join_requests
-             ORDER BY id DESC
-             LIMIT 5`
-        );
+        const [recentJoins] = await db.execute(`
+            SELECT id, fullname, email, status
+            FROM join_requests
+            ORDER BY id DESC
+            LIMIT 5
+        `);
 
-
-        const [monthlyDonations] = await db.execute(`
-    SELECT
-        MONTH(created_at) AS month,
-        SUM(amount) AS total
-    FROM donations
-    WHERE status='Verified'
-    GROUP BY MONTH(created_at)
-    ORDER BY MONTH(created_at)
-`);
-        // Latest Donations
-        const [recentDonations] = await db.execute(
-            `SELECT id, fullname, amount, status
-             FROM donations
-             ORDER BY id DESC
-             LIMIT 5`
-        );
+        const [recentDonations] = await db.execute(`
+            SELECT id, fullname, amount, status
+            FROM donations
+            ORDER BY id DESC
+            LIMIT 5
+        `);
 
         const [latestEvents] = await db.execute(`
-    SELECT *
-    FROM events
-    ORDER BY id DESC
-    LIMIT 5
-    `);
+            SELECT * FROM events
+            ORDER BY id DESC
+            LIMIT 5
+        `);
 
-        // Latest News
         const [latestNews] = await db.execute(`
-    SELECT *
-    FROM news
-    ORDER BY id DESC
-    LIMIT 5
-    `);
+            SELECT * FROM news
+            ORDER BY id DESC
+            LIMIT 5
+        `);
 
+        const [monthlyDonations] = await db.execute(`
+            SELECT MONTH(created_at) AS month,
+                   SUM(amount) AS total
+            FROM donations
+            WHERE status='Verified'
+            GROUP BY MONTH(created_at)
+            ORDER BY MONTH(created_at)
+        `);
 
         res.render("admin/dashboard", {
-
             memberCount: member.total,
             joinCount: join.total,
             eventCount: event.total,
             newsCount: news.total,
             donationCount: donation.total,
             pendingDonationCount: pendingDonation.total,
-
             recentJoins,
             recentDonations,
-            monthlyDonations,
-
             latestEvents,
             latestNews,
-
+            monthlyDonations
         });
 
-
     } catch (err) {
-
         console.log(err);
         res.send(err.message);
-
     }
-
 });
 
 // ================= Approve Member =================
