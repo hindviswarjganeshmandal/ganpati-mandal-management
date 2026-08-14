@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../config/db");
 
+
 exports.showLogin = (req, res) => {
     res.render("admin/login", {
         error: null
