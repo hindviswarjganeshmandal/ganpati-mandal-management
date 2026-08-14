@@ -84,51 +84,41 @@
         </div>
 
 
-        <div class="gallery-grid">
+<div class="gallery-grid">
 
-            <% photos.forEach(photo=> { %>
-                <% if (messages.success) { %>
+    <% if (messages.success) { %>
+        <div class="success-message">
+            <i class="fa-solid fa-circle-check"></i>
+            <%= messages.success %>
+        </div>
+    <% } %>
 
-                    <div class="success-message">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <%= messages.success %>
-                    </div>
+    <% photos.forEach(photo => { %>
 
-                    <% } %>
+        <div class="gallery-item">
 
-                        <div class="gallery-item">
+            <img
+                src="<%= photo.image %>"
+                alt="<%= photo.title %>"
+                class="gallery-image">
 
-                            <img src="/uploads/gallery/<%= photo.image %>" alt="<%= photo.title %>"
-                                class="gallery-image">
+            <h4><%= photo.title %></h4>
 
-                            <h4>
-                                <%= photo.title %>
-                            </h4>
+            <a
+                href="/admin/gallery/delete/<%= photo.id %>"
+                class="delete-btn"
+                onclick="return confirm('Are you sure you want to delete this photo?')">
 
-                            <a href="/admin/gallery/delete/<%= photo.id %>" class="delete-btn"
-                                onclick="return confirm('Are you sure you want to delete this photo?');">
+                <i class="fa-solid fa-trash"></i>
+                Delete
 
-                                <i class="fa-solid fa-trash"></i>
-                                Delete
-
-                            </a>
-
-                        </div>
-
-                        <% }) %>
-                            <% if (success) { %>
-
-                                <div class="success-notification" id="successNotification">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Photo Delete successfully!
-                                </div>
-
-                                <% } %>
-
+            </a>
 
         </div>
 
-    </div>
+    <% }) %>
+
+</div>
 
 </div>
 <script>
