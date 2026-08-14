@@ -1,36 +1,42 @@
 const incomeModel = require("../models/incomeModel");
 const expenseModel = require("../models/expenseModel");
-
+const db = require("../config/db");
 
 exports.dashboard = async (req, res) => {
-
     try {
+        const year = req.query.year || new Date().getFullYear();
 
-        const year =
-            req.query.year ||
-            new Date().getFullYear();
+        // Manual Income
+        const incomeTotal = await incomeModel.getYearIncome(year);
 
-        const totalIncome =
-            await incomeModel.getYearIncome(year);
+        // Verified Donations
+        const [[donation]] = await db.execute(`
+            SELECT IFNULL(SUM(amount),0) AS total
+            FROM donations
+            WHERE status='Verified'
+            AND YEAR(created_at)=?
+        `, [year]);
 
-        const totalExpense =
-            await expenseModel.getYearExpense(year);
-        const incomeSource =
-            await incomeModel.getIncomeSourceReport(year);
-        const expenseCategory =
-            await expenseModel.getExpenseCategoryReport(year);
+        // Expenses
+        const totalExpense = await expenseModel.getYearExpense(year);
 
-        const balance =
-            Number(totalIncome) -
-            Number(totalExpense);
+        const incomeSource = await incomeModel.getIncomeSourceReport(year);
+        const expenseCategory = await expenseModel.getExpenseCategoryReport(year);
+
         const recentIncome = await incomeModel.getRecentIncome();
-
         const recentExpense = await expenseModel.getRecentExpenses();
 
-        res.render("admin/financeDashboard", {
+        // Total Amount = Income + Verified Donations
+        const totalAmount = Number(incomeTotal) + Number(donation.total);
 
+        const balance = totalAmount - Number(totalExpense);
+
+        res.render("admin/financeDashboard", {
             year,
-            totalIncome,
+
+            incomeTotal,
+            donationTotal: donation.total,
+            totalAmount,
             totalExpense,
             balance,
 
@@ -39,16 +45,10 @@ exports.dashboard = async (req, res) => {
 
             recentIncome,
             recentExpense
-
         });
 
-    }
-    catch (err) {
-
+    } catch (err) {
         console.log(err);
-
         res.send(err.message);
-
     }
-
 };

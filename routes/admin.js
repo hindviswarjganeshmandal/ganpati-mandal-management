@@ -24,6 +24,8 @@ const incomeController = require("../controllers/incomeController");
 const financeController = require("../controllers/financeController");
 const financeExportController = require("../controllers/financeExportController");
 const bcrypt = require("bcrypt");
+const donationController = require("../controllers/donationController");
+
 // ================= Dashboard =================
 
 router.get("/dashboard", auth, async (req, res) => {
@@ -46,7 +48,9 @@ router.get("/dashboard", auth, async (req, res) => {
         );
 
         const [[donation]] = await db.execute(
-            "SELECT COUNT(*) AS total FROM donations"
+            `SELECT COUNT(*) AS total
+               FROM donations
+             WHERE status IN ('Pending','Verified')`
         );
 
         const [[pendingDonation]] = await db.execute(
@@ -87,6 +91,11 @@ router.get("/dashboard", auth, async (req, res) => {
             GROUP BY MONTH(created_at)
             ORDER BY MONTH(created_at)
         `);
+        const [[totalAmount]] = await db.execute(
+    `SELECT IFNULL(SUM(amount),0) AS total
+     FROM donations
+     WHERE status='Verified'`
+);
 
         res.render("admin/dashboard", {
             memberCount: member.total,
@@ -141,6 +150,7 @@ VALUES (?,?,?,?,?,?)`,
                 member.phone,
                 member.address,
                 member.photo,
+                 member.public_id,
                 hashedPassword
             ]
         );
@@ -200,8 +210,9 @@ router.get("/reject/:id", auth, async (req, res) => {
     }
 
 });
+// ================= Donation SECTION =================
 
-// ================= Donation List =================
+// Donation List
 
 router.get("/donations", auth, async (req, res) => {
 
@@ -222,7 +233,7 @@ router.get("/donations", auth, async (req, res) => {
 
 });
 
-// ================= Verify Donation =================
+// Verify Donation 
 
 router.get("/donations/verify/:id", auth, async (req, res) => {
 
@@ -235,18 +246,19 @@ router.get("/donations/verify/:id", auth, async (req, res) => {
 
 });
 
-// ================= Reject Donation =================
+//Reject Donation 
 
-// Reject Donation
-router.get("/donations/reject/:id", auth, async (req, res) => {
-    await donationModel.updateDonationStatus(
-        req.params.id,
-        "Rejected"
-    );
+router.get(
+    "/donations/reject/:id",
+    auth,
+    donationController.rejectDonation
+);
+router.get(
+    "/donations/delete/:id",
+    auth,
+    donationController.deleteDonation
+);
 
-    req.flash("success", "Donation rejected successfully");
-    res.redirect("/admin/donations");
-});
 // ================= Gallery =================
 
 router.get(
@@ -267,6 +279,7 @@ router.get(
     auth,
     galleryController.deletePhoto
 );
+
 // ================= NEWS =================
 
 // News Page
@@ -353,6 +366,7 @@ router.post(
     paymentUpload.single("qr_code"),
     paymentController.updatePayment
 );
+
 // Download Donation Receipt
 router.get(
     "/donations/receipt/:id",
@@ -484,6 +498,7 @@ router.get(
     auth,
     financeController.dashboard
 );
+
 // ================= FINANCE EXPORT =================
 
 // Export PDF
