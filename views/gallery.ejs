@@ -2,23 +2,22 @@
 <%- include("partials/navbar") %>
 
 <section class="gallery-section">
-
     <div class="container">
 
         <h1 class="section-title">Ganpati Mandal Photo Gallery</h1>
 
         <div class="gallery-grid">
 
-            <% if(photos && photos.length > 0){ %>
+            <% if (photos && photos.length > 0) { %>
 
                 <% photos.forEach(photo => { %>
 
-                    <a href="/uploads/gallery/<%= photo.image %>"
+                    <a href="<%= photo.image %>"
                        data-lightbox="gallery"
                        data-title="<%= photo.title %>">
 
                         <img
-                            src="/uploads/gallery/<%= photo.image %>"
+                            src="<%= photo.image %>"
                             alt="<%= photo.title %>"
                             class="gallery-image">
 
@@ -35,11 +34,9 @@
         </div>
 
     </div>
-
 </section>
 
-<link
-rel="stylesheet"
+<link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
