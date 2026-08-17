@@ -25,7 +25,7 @@ const financeController = require("../controllers/financeController");
 const financeExportController = require("../controllers/financeExportController");
 const bcrypt = require("bcrypt");
 const donationController = require("../controllers/donationController");
-
+const { v4: uuidv4 } = require("uuid");
 // ================= Dashboard =================
 
 router.get("/dashboard", auth, async (req, res) => {
@@ -119,9 +119,25 @@ router.get("/dashboard", auth, async (req, res) => {
 
 // ================= Approve Member =================
 
-// Show Approve Member Page
-const { v4: uuidv4 } = require("uuid");
+// ================= Approve Member =================
 
+// Open approval page
+router.get("/approve/:id", auth, async (req, res) => {
+    const [rows] = await db.execute(
+        "SELECT * FROM join_requests WHERE id=?",
+        [req.params.id]
+    );
+
+    if (rows.length === 0) {
+        return res.redirect("/admin/members");
+    }
+
+    return res.render("admin/approveMember", {
+        member: rows[0]
+    });
+});
+
+// Save approved member
 router.post("/approve/:id", auth, async (req, res) => {
     try {
         const [rows] = await db.execute(
@@ -130,7 +146,7 @@ router.post("/approve/:id", auth, async (req, res) => {
         );
 
         if (rows.length === 0) {
-            return res.redirect("/admin/dashboard");
+            return res.redirect("/admin/members");
         }
 
         const member = rows[0];
@@ -140,76 +156,78 @@ router.post("/approve/:id", auth, async (req, res) => {
 
         const hashedPassword = await bcrypt.hash("123456", 10);
 
-        const [result] = await db.execute(`
-            INSERT INTO members
-            (
-                fullname,email,phone,address,
-                photo,password,
-                can_add_income,can_add_expense,can_login
-            )
-            VALUES (?,?,?,?,?,?,?,?,?)
-        `, [
-            member.fullname,
-            member.email,
-            member.phone,
-            member.address,
-            member.photo,
-            hashedPassword,
-            canIncome,
-            canExpense,
-            0
-        ]);
+// Insert Member
+const [result] = await db.execute(
+    `INSERT INTO members
+    (
+      fullname,email,phone,address,
+      photo,password,
+      can_add_income,can_add_expense,can_login
+    )
+    VALUES (?,?,?,?,?,?,?,?,?)`,
+    [
+        member.fullname,
+        member.email,
+        member.phone,
+        member.address,
+        member.photo,
+        hashedPassword,
+        canIncome,
+        canExpense,
+        0
+    ]
+);
 
-        const memberId = result.insertId;
+const memberId = result.insertId;
 
-        const token = uuidv4();
-        const expire = new Date(Date.now() + 24 * 60 * 60 * 1000);
+// Create password token
+const token = uuidv4();
+const expire = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-        await db.execute(
-            `INSERT INTO password_tokens
-             (member_id, token, expires_at)
-             VALUES (?,?,?)`,
-            [memberId, token, expire]
-        );
+await db.execute(
+    `INSERT INTO password_tokens
+    (member_id, token, expires_at)
+    VALUES (?,?,?)`,
+    [memberId, token, expire]
+);
 
-        const link = `http://localhost:3000/member/set-password/${token}`;
+// Password link
+const link = `http://localhost:3000/admin/member/set-password/${token}`;
 
-        await sendEmail(
-            member.email,
-            "Set Your Password",
-            `<h2>Welcome ${member.fullname}</h2>
-             <p>Click below to create your password.</p>
-             <a href="${link}">${link}</a>`
-        );
+// Send Email
+await sendEmail(
+    member.email,
+    "Shree Ganesh Mandal - Set Your Password",
+    `
+    <h2>Welcome ${member.fullname}</h2>
 
-        await db.execute(
-            "UPDATE join_requests SET status='Approved' WHERE id=?",
-            [req.params.id]
-        );
+    <p>Your membership has been approved successfully.</p>
 
-        res.redirect("/admin/members");
+    <p>Click the button below to create your password:</p>
+
+    <a href="${link}"
+       style="padding:12px 20px;background:#ff6b00;color:white;text-decoration:none;border-radius:8px;">
+       Set Password
+    </a>
+
+    <p>This link expires in 24 hours.</p>
+    `
+);
+
+// Update Join Request
+await db.execute(
+    "UPDATE join_requests SET status='Approved' WHERE id=?",
+    [req.params.id]
+);
+
+        req.flash("success", "Member approved successfully");
+        return res.redirect("/admin/members");
 
     } catch (err) {
         console.log(err);
-        res.send(err.message);
+        return res.send(err.message);
     }
-
-    const [rows] = await db.execute(
-        "SELECT * FROM join_requests WHERE id=?",
-        [req.params.id]
-    );
-
-    if (rows.length === 0) {
-        return res.redirect("/admin/dashboard");
-    }
-
-    res.render("admin/approveMember", {
-        member: rows[0]
-    });
 });
-
-// Save Approved Member
-
 // ================= Reject Member =================
 
 router.get("/reject/:id", auth, async (req, res) => {

@@ -5,13 +5,11 @@ const galleryModel = require("../models/galleryModel");
 const donationModel = require("../models/donationModel");
 
 exports.homePage = async (req, res) => {
-
     try {
-
         const members = await memberModel.getAllMembers();
         const latestNews = await newsModel.getLatestNews(3);
         const events = await eventModel.getAllEvents();
-        const gallery = await galleryModel.getGallery();
+        const gallery = await galleryModel.getAllPhotos();   // ✅ Fixed
         const donationStats = await donationModel.getDonationStats();
 
         res.render("index", {
@@ -23,7 +21,6 @@ exports.homePage = async (req, res) => {
         });
 
     } catch (err) {
-
         console.error("Home Page Error:", err);
 
         res.render("index", {
@@ -36,7 +33,5 @@ exports.homePage = async (req, res) => {
                 donors: 0
             }
         });
-
     }
-
 };
