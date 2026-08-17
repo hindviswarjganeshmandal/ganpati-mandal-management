@@ -1,0 +1,51 @@
+<%- include("partials/sidebar") %>
+<%- include("partials/topbar") %>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="main-content">
+    <div class="container">
+
+        <h1>Approve Member</h1>
+
+        <div class="card">
+
+            <h3>Member Details</h3>
+
+            <p><strong>Name:</strong> <%= member.fullname %></p>
+            <p><strong>Email:</strong> <%= member.email %></p>
+            <p><strong>Phone:</strong> <%= member.phone %></p>
+            <p><strong>Address:</strong> <%= member.address %></p>
+
+            <hr>
+
+            <form action="/admin/approve/<%= member.id %>" method="POST">
+
+                <label>
+                    <input type="checkbox" name="can_add_income" value="1">
+                    Allow Add Income
+                </label>
+
+                <br><br>
+
+                <label>
+                    <input type="checkbox" name="can_add_expense" value="1">
+                    Allow Add Expense
+                </label>
+
+                <br><br>
+
+                <button type="submit" class="btn btn-success">
+                    Approve Member
+                </button>
+
+                <a href="/admin/members" class="btn btn-danger">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

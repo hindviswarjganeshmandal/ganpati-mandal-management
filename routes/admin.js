@@ -92,10 +92,10 @@ router.get("/dashboard", auth, async (req, res) => {
             ORDER BY MONTH(created_at)
         `);
         const [[totalAmount]] = await db.execute(
-    `SELECT IFNULL(SUM(amount),0) AS total
+            `SELECT IFNULL(SUM(amount),0) AS total
      FROM donations
      WHERE status='Verified'`
-);
+        );
 
         res.render("admin/dashboard", {
             memberCount: member.total,
@@ -119,15 +119,14 @@ router.get("/dashboard", auth, async (req, res) => {
 
 // ================= Approve Member =================
 
-router.get("/approve/:id", auth, async (req, res) => {
+// Show Approve Member Page
+const { v4: uuidv4 } = require("uuid");
 
+router.post("/approve/:id", auth, async (req, res) => {
     try {
-
-        const id = req.params.id;
-
         const [rows] = await db.execute(
             "SELECT * FROM join_requests WHERE id=?",
-            [id]
+            [req.params.id]
         );
 
         if (rows.length === 0) {
@@ -135,59 +134,81 @@ router.get("/approve/:id", auth, async (req, res) => {
         }
 
         const member = rows[0];
-        // Temporary password
-        const tempPassword = "Ganpati@123";
 
-        // Encrypt password
-        const hashedPassword = await bcrypt.hash(tempPassword, 10);
+        const canIncome = req.body.can_add_income ? 1 : 0;
+        const canExpense = req.body.can_add_expense ? 1 : 0;
+
+        const hashedPassword = await bcrypt.hash("123456", 10);
+
+        const [result] = await db.execute(`
+            INSERT INTO members
+            (
+                fullname,email,phone,address,
+                photo,password,
+                can_add_income,can_add_expense,can_login
+            )
+            VALUES (?,?,?,?,?,?,?,?,?)
+        `, [
+            member.fullname,
+            member.email,
+            member.phone,
+            member.address,
+            member.photo,
+            hashedPassword,
+            canIncome,
+            canExpense,
+            0
+        ]);
+
+        const memberId = result.insertId;
+
+        const token = uuidv4();
+        const expire = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
         await db.execute(
-            `INSERT INTO members
-(fullname,email,phone,address,photo,password)
-VALUES (?,?,?,?,?,?)`,
-            [
-                member.fullname,
-                member.email,
-                member.phone,
-                member.address,
-                member.photo,
-                 member.public_id,
-                hashedPassword
-            ]
+            `INSERT INTO password_tokens
+             (member_id, token, expires_at)
+             VALUES (?,?,?)`,
+            [memberId, token, expire]
+        );
+
+        const link = `http://localhost:3000/member/set-password/${token}`;
+
+        await sendEmail(
+            member.email,
+            "Set Your Password",
+            `<h2>Welcome ${member.fullname}</h2>
+             <p>Click below to create your password.</p>
+             <a href="${link}">${link}</a>`
         );
 
         await db.execute(
             "UPDATE join_requests SET status='Approved' WHERE id=?",
-            [id]
-        );
-        // Send approval email
-        await sendEmail(
-            member.email,
-            "Membership Approved - Shree Ganesh Mandal",
-            `
-    <h2>🎉 Congratulations</h2>
-
-    <p>Dear <b>${member.fullname}</b>,</p>
-
-    <p>Your membership request has been approved successfully.</p>
-
-    <p>Welcome to <b>Shree Ganesh Mandal</b>.</p>
-
-    <br>
-
-    <p>Ganpati Bappa Morya 🙏</p>
-    `
+            [req.params.id]
         );
 
-        res.redirect("/admin/dashboard");
+        res.redirect("/admin/members");
 
     } catch (err) {
-
         console.log(err);
         res.send(err.message);
-
     }
 
+    const [rows] = await db.execute(
+        "SELECT * FROM join_requests WHERE id=?",
+        [req.params.id]
+    );
+
+    if (rows.length === 0) {
+        return res.redirect("/admin/dashboard");
+    }
+
+    res.render("admin/approveMember", {
+        member: rows[0]
+    });
 });
+
+// Save Approved Member
 
 // ================= Reject Member =================
 
@@ -513,5 +534,16 @@ router.get(
     "/finance/export/excel",
     auth,
     financeExportController.exportExcel
+);
+
+
+router.get(
+    "/member/set-password/:token",
+    memberController.showSetPassword
+);
+
+router.post(
+    "/member/set-password/:token",
+    memberController.savePassword
 );
 module.exports = router;

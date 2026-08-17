@@ -1,3 +1,4 @@
+const db = require("../config/db");
 const memberModel = require("../models/memberModel");
 
 // ======================
@@ -31,25 +32,43 @@ exports.showPublicMembers = async (req, res) => {
 // ======================
 
 exports.showMembers = async (req, res) => {
-
     try {
+        const search = req.query.search || "";
 
-        const members = await memberModel.getAllMembers();
+        // Approved members
+        const [approved] = await db.execute(
+            `SELECT *,
+                    'Approved' AS status
+             FROM members
+             WHERE fullname LIKE ? OR email LIKE ?
+             ORDER BY id DESC`,
+            [`%${search}%`, `%${search}%`]
+        );
+
+        // Pending join requests
+        const [pending] = await db.execute(
+            `SELECT *,
+                    'Pending' AS status
+             FROM join_requests
+             WHERE status='Pending'
+             AND (fullname LIKE ? OR email LIKE ?)
+             ORDER BY id DESC`,
+            [`%${search}%`, `%${search}%`]
+        );
+
+        const members = [...pending, ...approved];
 
         res.render("admin/members", {
             members,
+            search,
             currentPage: 1,
-            totalPages: 1,
-            search: ""
+            totalPages: 1
         });
 
     } catch (err) {
-
         console.log(err);
         res.send(err.message);
-
     }
-
 };
 
 exports.deleteMember = async (req, res) => {

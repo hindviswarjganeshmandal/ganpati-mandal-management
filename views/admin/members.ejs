@@ -1,107 +1,142 @@
 <%- include("../partials/header") %>
 
-<link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin.css">
 
-<%- include("partials/sidebar") %>
-<%- include("partials/topbar") %>
+    <%- include("partials/sidebar") %>
+        <%- include("partials/topbar") %>
 
-<div class="main-content">
+            <div class="main-content">
 
-<h1>Member Management</h1>
-<form action="/admin/members" method="GET" style="margin-bottom:20px;">
+                <h1>Member Management</h1>
 
-    <input
-        type="text"
-        name="search"
-        placeholder="🔍 Search by Name or Email"
-        value="<%= search || '' %>"
-        style="width:300px;padding:10px;">
+                <form action="/admin/members" method="GET" style="margin-bottom:20px;">
+                    <input type="text" name="search" placeholder="🔍 Search by Name or Email"
+                        value="<%= search || '' %>" style="width:300px;padding:10px;">
 
-    <button class="btn btn-primary">
-        Search
-    </button>
+                    <button class="btn btn-primary">Search</button>
+                </form>
 
-</form>
+                <table class="table">
 
-<table class="table">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Income</th>
+                            <th>Expense</th>
+                            <th>Status</th>
+                            <th>Save</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
 
-<thead>
+                    <tbody>
 
-<tr>
-    <th>Photo</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Phone</th>
-    <th>Action</th>
-</tr>
+                        <% members.forEach(member=> { %>
 
-</thead>
+                            <tr>
 
-<tbody>
+                                <td>
+                                    <img src="<%= member.photo %>" width="60" height="60"
+                                        style="border-radius:50%;object-fit:cover;">
+                                </td>
 
-<% members.forEach(member => { %>
+                                <td>
+                                    <%= member.fullname %>
+                                </td>
 
-<tr>
+                                <td>
+                                    <%= member.email %>
+                                </td>
 
-<td>
-    <img
-        src="/uploads/members/<%= member.photo %>"
-        width="60"
-        height="60"
-        style="border-radius:50%;object-fit:cover;">
-</td>
+                                <td>
+                                    <%= member.phone %>
+                                </td>
 
-<td><%= member.fullname %></td>
+                                <form action="/admin/members/permission/<%= member.id %>" method="POST">
 
-<td><%= member.email %></td>
+                                    <td style="text-align:center;">
+                                        <input type="checkbox" name="can_add_income" value="1" <%=member.can_add_income
+                                            ? "checked" : "" %>>
+                                    </td>
 
-<td><%= member.phone %></td>
+                                    <td style="text-align:center;">
+                                        <input type="checkbox" name="can_add_expense" value="1"
+                                            <%=member.can_add_expense ? "checked" : "" %>>
+                                    </td>
 
-<td>
+                                    <td>
+                                    <td>
+                                        <% if(member.status==="Pending" ){ %>
+                                            <span class="badge bg-warning">Pending</span>
+                                            <% } else { %>
+                                                <span class="badge bg-success">Approved</span>
+                                                <% } %>
+                                    </td>
+                                    <button class="btn btn-success" type="submit">
+                                        Save
+                                    </button>
+                                    </td>
 
-<a href="/admin/members/delete/<%= member.id %>"
-   onclick="return confirm('Delete this member?')">
+                                </form>
 
-Delete
+                                <td>
+                                    <% if(member.status==="Pending" ){ %>
 
-</a>
+                                        <a href="/admin/approve/<%= member.id %>" class="btn btn-success">
+                                            Approve
+                                        </a>
 
-</td>
+                                        <a href="/admin/reject/<%= member.id %>" class="btn btn-danger">
+                                            Reject
+                                        </a>
 
-</tr>
+                                        <% } else { %>
 
-<% }) %>
+                                            <a href="/admin/members/delete/<%= member.id %>" class="btn btn-danger"
+                                                onclick="return confirm('Delete this member?')">
+                                                Delete
+                                            </a>
 
-</tbody>
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="can_login" value="1" <%=member.can_login ? "checked"
+                                        : "" %>>
+                                </td>
 
-</table>
-<div style="margin-top:20px;text-align:center;">
+                            </tr>
 
-<% if(currentPage>1){ %>
+                            <% }) %>
 
-<a class="btn btn-primary"
-href="/admin/members?page=<%= currentPage-1 %>">
-Previous
-</a>
+                    </tbody>
 
-<% } %>
+                </table>
 
-<span style="padding:10px 20px;">
-Page <%= currentPage %> of <%= totalPages %>
-</span>
+                <div style="margin-top:20px;text-align:center;">
 
-<% if(currentPage<totalPages){ %>
+                    <% if(currentPage>1){ %>
 
-<a class="btn btn-primary"
-href="/admin/members?page=<%= currentPage+1 %>">
-Next
-</a>
+                        <a class="btn btn-primary" href="/admin/members?page=<%= currentPage-1 %>">
+                            Previous
+                        </a>
 
-<% } %>
+                        <% } %>
 
-</div>
+                            <span style="padding:10px 20px;">
+                                Page <%= currentPage %> of <%= totalPages %>
+                            </span>
 
-</div>
+                            <% if(currentPage<totalPages){ %>
 
+                                <a class="btn btn-primary" href="/admin/members?page=<%= currentPage+1 %>">
+                                    Next
+                                </a>
 
-<%- include("../partials/footer") %>
+                                <% } %>
+
+                </div>
+
+            </div>

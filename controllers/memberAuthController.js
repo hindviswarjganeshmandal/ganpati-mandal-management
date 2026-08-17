@@ -55,6 +55,12 @@ exports.login = async (req, res) => {
             phone: member.phone
 
         };
+        
+        if (member.can_login === 0) {
+            return res.render("member/login", {
+                error: "Your account is awaiting admin permission."
+            });
+        }
 
         res.redirect("/member/dashboard");
 

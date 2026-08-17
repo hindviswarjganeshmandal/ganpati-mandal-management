@@ -5,6 +5,7 @@ const memberAuthController = require("../controllers/memberAuthController");
 const memberDashboardController = require("../controllers/memberDashboardController");
 const expenseController = require("../controllers/expenseController");
 const memberAuth = require("../middleware/memberAuth");
+const memberController = require("../controllers/memberController");
 router.get("/add-expense", memberAuth, expenseController.showAddExpense);
 
 // Login
@@ -56,6 +57,15 @@ router.post(
     "/expense/add",
     memberAuth,
     expenseController.addExpense
+);
+router.get(
+    "/member/set-password/:token",
+    memberController.showSetPassword
+);
+
+router.post(
+    "/member/set-password/:token",
+    memberController.savePassword
 );
 // My Profile
 router.get(
